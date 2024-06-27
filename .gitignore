@@ -1,4 +1,2 @@
-# : comments
-
-# no .a files
 *.meta
+_Scripts_byOther/
