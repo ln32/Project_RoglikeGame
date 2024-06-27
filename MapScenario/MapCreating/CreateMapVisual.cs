@@ -7,9 +7,9 @@ using UnityEngine.UIElements;
 using static CreateMapTools;
 
 
-public class CreateMap : MonoBehaviour
+public class CreateMapVisual : MonoBehaviour
 {
-    [SerializeField] internal CreateMapBackgroundValues createMapBackgroundValues;
+    [SerializeField] private CreateMapBackgroundValues createMapBackgroundValues;
     [SerializeField] private CreateMapEventValues createMapEventValues;
     [SerializeField] private CreateRoadValues createRoadValues;
     public List<NodeScriptPerLevel> eventObjectList = new();
@@ -85,6 +85,7 @@ public class CreateMap : MonoBehaviour
             }
         }
 
+        if (true)
         {
             foreach (var item in createdLevel.nodeList)
             {
@@ -199,6 +200,7 @@ public class CreateMap : MonoBehaviour
 
         return;
     }
+
     public void InitSettingEventPos_BOSS_byHistory(EventNodeDataToPlace treeData, int index)
     {
         focusingNode = treeData.focusGridPos;
@@ -374,7 +376,7 @@ public class CreateMap : MonoBehaviour
         return;
     }
 
-    public Vector2 getAxisX_CreatedNode()
+    public Vector2 GetAxisX_CreatedNode()
     {
         NodeScriptPerLevel createdLevel = eventObjectList[eventObjectList.Count - 1];
 
@@ -594,7 +596,7 @@ public class CreateMap : MonoBehaviour
 
             if (min < radio)
             {
-                backgroundSprites[j].transform.name = "sad";
+                backgroundSprites[j].transform.name = "ToRemoveObj";
                 backgroundSprites[j].gameObject.SetActive(false);
                 trashbin.Add(backgroundSprites[j]);
                 backgroundSprites.RemoveAt(j);
@@ -727,12 +729,12 @@ public class EventDataSet
 public class BoxPointer
 {
     public float length_X, length_Y; 
-    public float getLength_X()
+    public float GetLength_X()
     {
         return length_X;
     }
 
-    public float getLength_Y()
+    public float GetLength_Y()
     {
         return length_Y;
     }
@@ -740,7 +742,7 @@ public class BoxPointer
     public float getRandomHeight(float coex = 0f)
     {
         float temp = 1 - coex * coex;
-        return getLength_Y() * (temp - 0.7f) - getLength_Y()* 0.2f; 
+        return GetLength_Y() * (temp - 0.7f) - GetLength_Y()* 0.2f; 
     }
 }
 

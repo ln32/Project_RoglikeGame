@@ -4,18 +4,17 @@ using UnityEngine;
 
 public class CreateStageScenario : MonoBehaviour
 {
-    internal MapScenario.OnClickFunc onClick;
+    internal Action<int> onClick;
 
-    public CreateMap createBackGroundSector;
-    public CreateFloatingNode createNodeSector;
+    public CreateMapVisual createBackGroundSector;
+    public CreateFloatingNode createFloatingNode;
     public Transform focusingNode;
     public Vector2Int focusingGridPos;
 
     public List<TouchableNode> currSelectable;     
-    public List<EventNodeDataToPlace> toManaging;
     public Camera MapCamera;
 
-    public void SetOnClickFunc(MapScenario.OnClickFunc _onClick)
+    public void SetOnClickFunc(Action<int> _onClick)
     {
         onClick = _onClick;
     }
@@ -23,117 +22,66 @@ public class CreateStageScenario : MonoBehaviour
     public void NewGame(int seed)
     {
         UnityEngine.Random.InitState(seed);
-        this.SetInitData();
+        this.setInitData();
 
-        BuildStem_byInit();
-        BuildLeaf_byInit();
+        this.buildStem_byInit();
+        this.buildLeaf_byInit();
 
-        currSelectable.SettingNextDestination(createBackGroundSector, createNodeSector, onClick);
-        this.SetVisualObject();
+        currSelectable.settingNextDestination(createBackGroundSector, createFloatingNode, onClick);
+        this.setVisualObject();
     }
 
     public void LoadGame(int seed,int[] history)
     {
         UnityEngine.Random.InitState(seed);
-        this.SetInitData();
+        this.setInitData();
 
-        BuildStem_byInit();
-        BuildLeaf_byInit();
+        this.buildStem_byInit();
+        this.buildLeaf_byInit();
 
         for (int i = 0; i < history.Length; i++)
         {
-            currSelectable.SettingNextDestination(createBackGroundSector, createNodeSector, history[i]);
-            if(createNodeSector.createNodeValues.maxLevel == i)
+            currSelectable.settingNextDestination(createBackGroundSector, createFloatingNode, history[i]);
+            if(createFloatingNode.createNodeValues.maxLevel <= i)
             {
-               // History Is Over, Fuck;
+               // History Is Too Long;
                 return;
             }
-            BuildLeaf_byHistory(history[i], 
-                (createNodeSector.createNodeValues.maxLevel - i == 2)); // 보스 판단 
+            this.buildLeaf_byHistory(history[i], 
+                (createFloatingNode.createNodeValues.maxLevel - i == 2)); // 보스 판단 
         }
 
 
-        currSelectable.SettingNextDestination(createBackGroundSector, createNodeSector, onClick);
-        this.SetVisualObject();
+        currSelectable.settingNextDestination(createBackGroundSector, createFloatingNode, onClick);
+        this.setVisualObject();
     }
 
     public Vector3 ProgressMap(int inputChildIndex, ref GUI_MapScenario.ProgressMap_preInput task)
     {
-        if (!createNodeSector.IsInit())
+        if (!createFloatingNode.IsInit())
             return Vector3.one*-1;
 
-        if(createNodeSector.createNodeValues.maxLevel == focusingGridPos.x)
+        if(createFloatingNode.createNodeValues.maxLevel == focusingGridPos.x)
         {
             return Vector3.zero;
         }
 
         // 말단 생성 후, 해당 노드의 트랜스폼 갱신
-        BuildLeaf(ref task, inputChildIndex);
+        this.buildLeaf(ref task, inputChildIndex);
 
         focusingNode = createBackGroundSector.GetFocusTransform();
-        focusingGridPos = createNodeSector.getFocusGridPos();
+        focusingGridPos = createFloatingNode.getFocusGridPos();
 
         Vector2Int range_Curr = createBackGroundSector.eventObjectList.getChildRangeByGridPos_FocusStd(focusingGridPos);
-        Vector3 rtnV3 = createBackGroundSector.getAxisX_CreatedNode();
+        Vector3 rtnV3 = createBackGroundSector.GetAxisX_CreatedNode();
 
-        //맵 생성을 이후로 미룰려고 해둔짓
-        task += () => currSelectable.SettingNextDestination(createBackGroundSector, createNodeSector, onClick);
+        // 맵 생성을 클릭 이벤트 이후로 미룰려고 추가 코드
+        task += () => currSelectable.settingNextDestination(createBackGroundSector, createFloatingNode, onClick);
 
         return rtnV3;
     }
 
-    public void BuildStem_byInit()
-    {
-        EventNodeDataToPlace treeData = createNodeSector.buildStem();
-        toManaging.Add(treeData);
-
-        createBackGroundSector.InitSettingEventPos(treeData , -1);
-        createBackGroundSector.FillEnv(true);
-    }
-
-    public void BuildLeaf_byInit(int input = -1, bool isBoss = false)
-    {
-        EventNodeDataToPlace treeData = createNodeSector.buildTree(input);
-        toManaging.Add(treeData);
-
-        createBackGroundSector.InitSettingEventPos(treeData, input);
-        createBackGroundSector.FillEnv();
-    }
-
-    public void BuildLeaf_byHistory(int input, bool isBoss)
-    {
-        EventNodeDataToPlace treeData = createNodeSector.buildTree(input);
-        toManaging.Add(treeData);
-
-        if (isBoss)
-        {
-            createBackGroundSector.InitSettingEventPos_BOSS_byHistory(treeData, input);
-            createBackGroundSector.FillEnv();
-            return;
-        }
-        else
-            createBackGroundSector.InitSettingEventPos(treeData, input);
-
-        createBackGroundSector.FillEnv();
-    }
-
-    // 시간차 생성
-    public void BuildLeaf(ref GUI_MapScenario.ProgressMap_preInput task, int input = -1)
-    {
-        EventNodeDataToPlace treeData = createNodeSector.buildTree(input);
-        toManaging.Add(treeData);
-
-        if(createNodeSector.createNodeValues.maxLevel - focusingGridPos.x == 2)
-        {
-            createBackGroundSector.InitSettingEventPos_BOSS(treeData, input, ref task);
-        }
-        else
-            createBackGroundSector.InitSettingEventPos(treeData, input,ref task);
-
-        task += () => createBackGroundSector.FillEnv();
-    }
-
-    public int GetIndex_atCurrFocusing()
+    public int GetIndex_CurrFocusing()
     {
         Vector2Int temp = createBackGroundSector.focusingNode;
         return createBackGroundSector.eventObjectList[temp.x].eventIndex[temp.y];

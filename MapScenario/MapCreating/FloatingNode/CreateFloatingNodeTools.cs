@@ -24,7 +24,7 @@ internal static class CreateFloatingNodeTools
 
             curr.nodeList.Add(new Node(new Vector2Int(0, 0), -1)
             {
-                terrainV3 = values.initValues.INIT_terrainV3.normalized,
+                terrainV3 = values.initValues.Value_terrainV3.normalized,
                 myEvent = -1
             });
 
@@ -132,7 +132,7 @@ internal static class CreateFloatingNodeTools
 
         return; 
 
-        // Init
+        // Init Case
         void AddLevelNodes_1(CreateNodeValues values)
         {
             NodeSetPerLevel prev = values.levelList[values.levelList.Count - 1];
@@ -144,13 +144,13 @@ internal static class CreateFloatingNodeTools
             {
                 curr.nodeList.Add(new Node(new Vector2Int(curr.level, i))
                 {
-                    terrainV3 = values.initValues.INIT_terrainV3.normalized,
+                    terrainV3 = values.initValues.Value_terrainV3.normalized,
                     myEvent = 200
                 });
             }
         }
 
-        // Init
+        // non Init Case
         void AddLevelNodes_2(CreateNodeValues values)
         {
             NodeSetPerLevel prev = values.levelList[values.levelList.Count - 1];

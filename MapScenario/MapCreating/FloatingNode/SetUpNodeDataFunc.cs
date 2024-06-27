@@ -4,7 +4,7 @@ using UnityEngine;
 
 internal static class SetUpNodeDataFunc
 {
-    static public EventNodeDataToPlace initTree(this CreateFloatingNode cfn)
+    static internal EventNodeDataToPlace initTree(this CreateFloatingNode cfn)
     {
         if (cfn.IsInit())
             return null;

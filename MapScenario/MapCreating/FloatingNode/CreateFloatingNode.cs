@@ -1,13 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class CreateFloatingNode : MonoBehaviour
 {
-    public CreateNodeValues createNodeValues;
-    public List<NodeSetPerLevel> levelNodeList = new();
+    internal CreateNodeValues createNodeValues;
+    internal List<NodeSetPerLevel> levelNodeList = new();
     bool isInit = false;
 
     public bool IsInit()
@@ -24,8 +23,8 @@ public class CreateFloatingNode : MonoBehaviour
     {
         Node _focusNode = createNodeValues.GetFocusNode();
 
-        // 혹시 모를 예외처리
-        {
+        // 예외처리
+        if(true){
             if (_focusNode.gridPos.x >= levelNodeList.Count)
                 return null;
 
@@ -69,7 +68,6 @@ public class CreateFloatingNode : MonoBehaviour
     {
         Node _focusNode = createNodeValues.GetFocusNode();
 
-
         // focus 좌표 이동 ( init 상황은 예외처리 if문 )
         if (nextChild != -1)
         {
@@ -94,7 +92,7 @@ public class CreateFloatingNode : MonoBehaviour
 
             rtnData.targetLevel = 2;
 
-            // 이제 다음 자식 정보 전달 생각
+            // 이제 다음 자식
             if (_focusNode.gridPos.x + 2 >= levelNodeList.Count)
             {
                 rtnData.targetLevel = -1;
@@ -151,59 +149,59 @@ public class CreateFloatingNode : MonoBehaviour
 }
 
 [Serializable]
-public struct CreateNodeValues
+internal struct CreateNodeValues
 {
-    public int[] eventCoefTable;
-    public int[] childCountTable;
-    public int[] nodesPerLevel;
+    internal int[] eventCoefTable;
+    internal int[] childCountTable;
+    internal int[] nodesPerLevel;
 
-    public Vector2Int rangeMinMax;
-    public int maxLevel;
+    internal Vector2Int rangeMinMax;
+    internal int maxLevel;
 
-    public Transform parentTransform;
-    public Vector2Int focusNodeGridPos;
-    public List<NodeSetPerLevel> levelList;
+    internal Transform parentTransform;
+    internal Vector2Int focusNodeGridPos;
+    internal List<NodeSetPerLevel> levelList;
 
-    public MapSettingValues initValues;
+    internal MapSettingValues initValues;
 }
 
 [Serializable]
-public struct MapSettingValues
+internal struct MapSettingValues
 {
-    public Vector3 INIT_terrainV3;
-    public int INIT_difficulty;
-    public float sadvalues;
+    internal Vector3 Value_terrainV3;
+    internal int Value_difficulty;
+    internal float Value_SetIndex;
 }
 
 [Serializable]
-public class NodeSetPerLevel
+internal class NodeSetPerLevel
 {
-    public int level;
-    public List<Node> nodeList;
+    internal int level;
+    internal List<Node> nodeList;
 }
 
 [Serializable]
-public class Node
+internal class Node
 {
-    public Vector2Int gridPos;
+    internal Vector2Int gridPos;
 
-    public Vector3 terrainV3;    
-    public int terrainLevel;
+    internal Vector3 terrainV3;
+    internal int terrainLevel;
 
-    public List<Node> myChilds;
-    public Node shared_L;
-    public Node shared_R;
-    public int myEvent;
-    public Transform myObject;
-    public List<int> connData_focus = null;
+    internal List<Node> myChilds;
+    internal Node shared_L;
+    internal Node shared_R;
+    internal int myEvent;
+    internal Transform myObject;
+    internal List<int> connData_focus = null;
 
-    public Node(Vector2Int gridPos)
+    internal Node(Vector2Int gridPos)
     {
         this.gridPos = gridPos;
         myChilds = new List<Node>();
     }
 
-    public Node(Vector2Int _gridPos,int _myEvent)
+    internal Node(Vector2Int _gridPos,int _myEvent)
     {
         gridPos = _gridPos;
         myEvent = _myEvent;

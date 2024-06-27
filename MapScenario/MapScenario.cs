@@ -9,7 +9,6 @@ public class MapScenario : MonoBehaviour
     [SerializeField] internal Values_UTIL _UTIL;
     [SerializeField] internal Values_SCENARIO _SC;
 
-    public delegate void OnClickFunc(int index);
     public MapHistoryData History;
     public GameObject MapSC_GUI;
 
@@ -17,11 +16,15 @@ public class MapScenario : MonoBehaviour
     bool _checkCreated = false;
 
     private void Awake()
-    {
-        _checkCreated = _SGT.mapDATA.CheckInitOn(this);
-        SceneToSceneFuncSGT.InitSingleton(ref _SGT.STS);
-        _SGT.mapDATA.visualObj.enabled = (true);
-        SceneToSceneFuncSGT.ArriveScene_Map();
+    {        
+        // set init input
+        if (true)
+        {
+            _checkCreated = _SGT.mapDATA.CheckInitOn(this);
+            SceneToSceneFuncSGT.InitSingleton(ref _SGT.STS);
+            _SGT.mapDATA.visualObj.enabled = (true);
+            SceneToSceneFuncSGT.ArriveScene_Map();
+        }
 
         // inven input
         if (true)
@@ -55,7 +58,7 @@ public class MapScenario : MonoBehaviour
     {
         // 결정 전 단계를 GUI에게 맡김
         // 맵 진행 시 일어나야할 이벤트를 GUI에게 넣어줌
-        _SC.mapGUI._selectGUI._InitSelectedFunc(new OnClickFunc(ProgressMap));
+        _SC.mapGUI._selectGUI._InitSelectedFunc(new Action<int>(ProgressMap));
 
         //  GUI 이벤트를 버튼에게 저장하기 위해 create map 에 넣어둠
         _SC.cs.SetOnClickFunc(_SC.mapGUI._selectGUI._SelectEvent);
@@ -143,7 +146,7 @@ public class MapScenario : MonoBehaviour
             if (true)
             {
                 // <<< Scene Name
-                string dstSceneName = GameManager.gameManager.GetSceneName_byEventIndex(_SC.cs.GetIndex_atCurrFocusing());
+                string dstSceneName = GameManager.gameManager.GetSceneName_byEventIndex(_SC.cs.GetIndex_CurrFocusing());
                 _SGT.mapDATA.CurrMS._UTIL.ALS.LoadScene_Asyc(dstSceneName);
                 _SC.mapGUI.moveCamFunc(desV3, task);
             }
@@ -231,8 +234,8 @@ public class MapHistoryData
             Debug.Log("sad");
         } else
         {
-            _history = CJH_GameManager._instance.history;
-            _stage = CJH_GameManager._instance.stageIndex;
+            _history = GameManager.gameManager.history;
+            _stage = GameManager.gameManager.stageIndex;
         }
         return _history;
     }
@@ -242,41 +245,36 @@ public class MapHistoryData
         return _stage;
     }
 
-    public int getSeed() { return _seed * (_stage+1); }
+    public int getSeed() { return _seed; }
 
     public void ClearLevel()
     {
         _stage++;
         GameManager.gameManager.SetMapData_History_Default(_stage);
     }
-
-    public string GetNextScene()
-    {
-        return "Stage " + _stage;
-    }
 }
 
 [Serializable]
 internal struct Values_SGT
 {
-    public MapDataSGT mapDATA;
-    public SceneToSceneFuncSGT STS;
+    internal MapDataSGT mapDATA;
+    internal SceneToSceneFuncSGT STS;
 }
 
 [Serializable]
 internal struct Values_UTIL
 {
-    public OverlayTrick CaptureBG;
-    public MyInputManager InputM;
-    public InvenCtrl_MapSC CES;
-    public _AsycLoadScene ALS;
+    internal OverlayTrick CaptureBG;
+    internal MyInputManager InputM;
+    internal InvenCtrl_MapSC CES;
+    internal _AsycLoadScene ALS;
 }
 
 [Serializable]
 internal struct Values_SCENARIO
 {
-    public CreateStageScenario cs;
-    public GUI_MapScenario mapGUI;
-    public InvenSC_Map invenSC;
-    public GUI_MapNodeInfo mapNodeInfo;
+    internal CreateStageScenario cs;
+    internal GUI_MapScenario mapGUI;
+    internal InvenSC_Map invenSC;
+    internal GUI_MapNodeInfo mapNodeInfo;
 }

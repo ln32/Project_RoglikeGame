@@ -36,7 +36,7 @@ public static class _CharStatFuncSet_DDO
         return true;
     }
 
-    
+    /*
     static public bool CompareItem_withStat(this SlotGUI_ShopEquip targetEquip, ItemUnit target)
     {
         int charComp_0 = targetEquip.compIndex_0; int itemComp_0 = target.itemData[0];
@@ -67,5 +67,5 @@ public static class _CharStatFuncSet_DDO
         }
 
         return true;
-    }
+    }*/
 }

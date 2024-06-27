@@ -7,7 +7,7 @@ using UnityEngine.Windows;
 
 public class GUI_SelectedNode : MonoBehaviour
 {
-    public CreateMap adress;
+    public CreateMapVisual adress;
     public List<NodeScriptPerLevel> _eventObjectList = new();
     public GUI_MapScenario values;
     public GUI_MapNodeInfo NodeInfoGUI;
@@ -15,10 +15,10 @@ public class GUI_SelectedNode : MonoBehaviour
     [SerializeField] internal State_NodeBtn state = new();
 
     public Color HighLightMaterial, subHighLightMaterial, DefaultMaterial, DefaultMaterial_Node;
-    public MapScenario.OnClickFunc _decideSelected_Func; // Progress 
+    public Action<int> _decideSelected_Func; // Progress 
     public float power; public float timer;
     
-    public void _InitSelectedFunc(MapScenario.OnClickFunc target)
+    public void _InitSelectedFunc(Action<int> target)
     {
         _decideSelected_Func = target;
     }

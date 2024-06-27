@@ -22,8 +22,8 @@ internal static class CreateMapTools
 
         count += (nodeTreeData.Count) - 1;
 
-        float coefX = values.eventArea.getLength_X();
-        float coefY = values.eventArea.getLength_Y();
+        float coefX = values.eventArea.GetLength_X();
+        float coefY = values.eventArea.GetLength_Y();
 
         if (true)
         {
@@ -145,9 +145,9 @@ internal static class CreateMapTools
 
         void Fill_Circle()
         {
-            float coefX = values.backgroundArea.getLength_X() / 2;
-            float coefY = values.backgroundArea.getLength_Y() / 2;
-            Vector2 stdV2 = new Vector2(-values.backgroundArea.getLength_X() / 2, -values.backgroundArea.getLength_Y() / 2);
+            float coefX = values.backgroundArea.GetLength_X() / 2;
+            float coefY = values.backgroundArea.GetLength_Y() / 2;
+            Vector2 stdV2 = new Vector2(-values.backgroundArea.GetLength_X() / 2, -values.backgroundArea.GetLength_Y() / 2);
 
             for (int y = 0; y < values.countY; y++)
             {
@@ -219,8 +219,8 @@ internal static class CreateMapTools
 
         void Fill_Circle()
         {
-            float coefX = values.backgroundArea.getLength_X();
-            float coefY = values.backgroundArea.getLength_Y();
+            float coefX = values.backgroundArea.GetLength_X();
+            float coefY = values.backgroundArea.GetLength_Y();
 
             for (int y = 0; y < values.countY * 2; y++)
             {
@@ -294,7 +294,7 @@ internal static class CreateMapTools
 
 
     // 1227DBG_4
-    internal static void setEvent_byPatrol(this CreateMap cm, NodeScriptPerLevel target, Vector2 _rangeV2)
+    internal static void setEvent_byPatrol(this CreateMapVisual cm, NodeScriptPerLevel target, Vector2 _rangeV2)
     {
         if (cm.focusingNode.y == -1)
             return;
@@ -390,7 +390,7 @@ internal static class CreateMapTools
     }
 
     // 1227DBG_3z
-    internal static void setEvent_byHistory(this CreateMap cm, NodeScriptPerLevel target, Vector2 _rangeV2)
+    internal static void setEvent_byHistory(this CreateMapVisual cm, NodeScriptPerLevel target, Vector2 _rangeV2)
     {
         cm._value.ApplyCurrState(target.eventIndex, new Vector2Int((int)_rangeV2.x, (int)_rangeV2.y),cm.focusingNode);
     }
@@ -690,7 +690,7 @@ internal static class CreateMapTools
         return new Vector2Int((int)temp.x, (int)temp.y);
     }
 
-    public static void SetSizeCaptureCam(this CreateMap CreateMapTool, Vector2Int v2)
+    public static void SetSizeCaptureCam(this CreateMapVisual CreateMapTool, Vector2Int v2)
     {
         CreateMapTool.createMapBackgroundValues.countX = v2.x;
         CreateMapTool.createMapBackgroundValues.countY = v2.y;
