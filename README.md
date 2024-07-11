@@ -5,12 +5,14 @@ itch.io link (post the work)
 # Custom-Visual-Effect
 
 # Table of Contents
-- [[1] Func Overview](#1-Func_Overview)
-  - [Map Overview](#Map_Overview)
-  - [Inventory Overview](#Inventory_Overview)
+- [[1] Func Overview](#1-FuncOverview)
+  - [Map Overview](#MapOverview)
+  - [Inventory Overview](#InventoryOverview)
+  - [Camp Overview](#CampOverview)
+  - [Shop Overview](#ShopOverview)
 - [[2] PopGainEffect](#2-PopGainEffect)
-- [[3] FogEffect_SceneChange](#3-FogEffect_SceneChange)
-- [[4] Posted Link](#4-Posted_Link)
+- [[3] FogEffect_SceneChange](#3-FogEffectSceneChange)
+- [[4] Posted Link](#4-PostedLink)
 - [[0] Acknowledgement](#0-Acknowledgement)
 
 
