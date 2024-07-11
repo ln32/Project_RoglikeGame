@@ -1,8 +1,12 @@
-itch.io link (post the work)
+
+# Project_RoglikeGame
+
+## Posted Link
+ https://jaehoon602.itch.io/map-inven-camp-shop-720p
+ 
+-> itch.io link (last updated - 24.07.05.)
 
 
-
-# Custom-Visual-Effect
 
 # Table of Contents
 - [[1] Map 개요](#1-Map-개요)
@@ -22,6 +26,7 @@ itch.io link (post the work)
   - [구조](#구조)
   - [인상깊은 구현](#인상깊은-구현)
 - [[0] Acknowledgement](#0-Acknowledgement)
+
 
 
 # [1] Map 개요
@@ -44,7 +49,7 @@ itch.io link (post the work)
 5. 맵 이동 시 입력 제한 및 맵 이동 연출과 동시에 다음 씬 로드 진행
 6. 진행 후 맵 데이터 갱신 후, 갱신된 맵에 알맞은 데이터들을 생성
 
-# Inventory 개요
+# [2] Inventory 개요
 
 ## 기능 
 ![image](https://github.com/ln32/Project_RoglikeGame/assets/94381505/7e8fb4ff-bf5f-4e16-8997-0fce4af0af91)
@@ -62,7 +67,7 @@ itch.io link (post the work)
 5. Item Fouce 시, 해당 아이템의 데이터를 출력합니다.
 6. Item을 Charactor Equip Slot에 장착 시 정보 동기화 후 알맞은 GUI로 갱신합니다.
 
-# Camp 개요
+# [3] Camp 개요
 
 ## 기능 
 ![image](https://github.com/ln32/Project_RoglikeGame/assets/94381505/7bdb1fc9-1486-4043-a07a-d5c18190a44b)
@@ -80,7 +85,7 @@ itch.io link (post the work)
 4. 모든칸에 배치가 된 후 func 버튼으로 Cook를 진행하고, 시너지에 따른 요리가 나옵니다.
 5. 한 번 배치한 재료는 다른 Slot에 배치 하게 되면 기존 배치는 취소되며, 배치된 Item은  Inventory에 하얗게 칠해집니다.
 
-# Shop 개요
+# [4] Shop 개요
 
 ![image](https://github.com/ln32/Project_RoglikeGame/assets/94381505/12050e4f-9593-4041-999f-d900e2583dbb)
 
@@ -96,11 +101,6 @@ itch.io link (post the work)
 3. Inventory Item을 Sell Table에 Drag Drop 시, 판매 상호작용 발생
 4. Item을 Info Box에 Drag Drop 시, Focus 상호작용 발생
 5. 구입 및 판매 시 Item Data 저장하고 Return 버튼 클릭 시, 해당 데이터를 업로드 합니다.
-
-# [4] Posted Link
- https://jaehoon602.itch.io/map-inven-camp-shop-720p
- 
-last updated - 24.07.05.
 
 
 # [0] Acknowledgement
