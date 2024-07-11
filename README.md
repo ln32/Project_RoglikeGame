@@ -10,9 +10,9 @@ itch.io link (post the work)
   - [Inventory Overview](#Inventory-Overview)
   - [Camp Overview](#Camp-Overview)
   - [Shop Overview](#Shop-Overview)
-- [[2] PopGainEffect](#2-PopGainEffect)
-- [[3] FogEffect_SceneChange](#3-FogEffectSceneChange)
-- [[4] Posted Link](#4-PostedLink)
+- [[2] Structure](#2-Structure)
+- [[3] Related Implementation](#3-Related-Implementation)
+- [[4] Posted Link](#4-Posted-Link)
 - [[0] Acknowledgement](#0-Acknowledgement)
 
 
