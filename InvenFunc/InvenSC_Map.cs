@@ -7,7 +7,6 @@ using UnityEngine;
 public class InvenSC_Map : MonoBehaviour
 {
     public SGT_GUI_ItemData invenData_SGT;
-    public CharacterManager _cm;
     public GUI_InvenSetManager invenGUI_Manager;
     public List<ItemUnit> ItemList_Data;
 
@@ -27,19 +26,10 @@ public class InvenSC_Map : MonoBehaviour
         void setCharData_DEBUG()
         {
             Debug.Log("getCharData_DEBUG");
-
-            if (_cm == null)
-                _cm = FindObjectOfType<CharacterManager>();
-
-            if (_cm == null)
-            {
-                Debug.Log("wognsdk cm sjgdjfk");
-                return;
-            }
         }
     }
 
-    public void AddItem_Debug()
+    public void Event_AddRandomItem()
     {
         SlotGUI_InvenSlot targetSlot = invenGUI_Manager.GetSlotGUI_byMin();
 

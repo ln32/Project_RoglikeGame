@@ -690,12 +690,6 @@ internal static class CreateMapTools
         return new Vector2Int((int)temp.x, (int)temp.y);
     }
 
-    public static void SetSizeCaptureCam(this CreateMapVisual CreateMapTool, Vector2Int v2)
-    {
-        CreateMapTool.createMapBackgroundValues.countX = v2.x;
-        CreateMapTool.createMapBackgroundValues.countY = v2.y;
-    }
-
     public static void SetNodeMaterialActive(this SpriteRenderer targetNode)
     {
         targetNode.transform.GetComponent<NodeController>().ActiveDetailed();

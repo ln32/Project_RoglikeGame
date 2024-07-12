@@ -10,8 +10,8 @@ public static class _RBD_UseDisposable_MAP
         {
             if (_src._itemGUI._myData.itemData[0] == 0)
             {
-                var _CharacterData = CharacterData.getSGT();
-                var tempChar = _CharacterData.getCharData(_dst.myIndex);
+                var _CharacterData = CharacterData.GetSGT();
+                var tempChar = _CharacterData.GetCharData(_dst.myIndex);
                 float _hp = tempChar.hp; float _maxHp = tempChar.maxHp;
                 if (true)
                 {
@@ -21,7 +21,7 @@ public static class _RBD_UseDisposable_MAP
                 int targetHp = (int)tempChar.hp+ (_src._itemGUI._myData.itemData[1] * 2 + 1);
                 tempChar.hp = Mathf.Min(tempChar.maxHp,targetHp);
 
-                _CharacterData.SetEvent(_dst.myIndex);
+                _CharacterData.Event_SpendItem(_dst.myIndex);
                 _src.SetItemData_byData(null);
                 return;
             }

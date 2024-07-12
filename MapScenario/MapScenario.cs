@@ -220,7 +220,7 @@ public class MapHistoryData
 
     public void InitHistoryData()
     {
-        _seed = GameManager.seed;
+        _seed = GameManager.gameManager.seed;
         GetHistory();
         return;
     }

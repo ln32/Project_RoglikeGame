@@ -8,16 +8,18 @@ public class CharEquipZone : MonoBehaviour
     public int myCharIndex;
     public TextMeshProUGUI charName;
     public TextMeshProUGUI stat_0, stat_1, stat_2;
-    private CharacterManager cash;
+    private CharacterData cash;
     private void OnEnable()
     {
+        if (cash == null)
+            cash = CharacterData.GetSGT();
+
         RefreshText();
     }
 
     public void RefreshText()
     {
-        var _charData = cash;
-        var cm = _charData.GetCharacter(myCharIndex);
+        GameCharactor cm = cash.GetCharData(myCharIndex);
 
         charName.text = "Hp : " + cm.hp.ToString("0.00") + " / " + cm.maxHp.ToString("0.00");
         stat_0.text = cm.ability.ToString("0.00") + " ";
