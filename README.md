@@ -38,7 +38,7 @@
 
 ![image](https://github.com/ln32/Project_RoglikeGame/assets/94381505/bc9be3b1-7cea-4538-a04d-66dbf847ba7d)
 
-[Todo]
+[Todo : Add Play video]
 
 ## 구조
 
@@ -59,6 +59,7 @@
 ## 기능 
 ![image](https://github.com/ln32/Project_RoglikeGame/assets/94381505/7e8fb4ff-bf5f-4e16-8997-0fce4af0af91)
 
+[Todo : Add Play video]
 
 ## 구조
 
@@ -99,6 +100,7 @@
 
 ![image](https://github.com/ln32/Project_RoglikeGame/assets/94381505/12050e4f-9593-4041-999f-d900e2583dbb)
 
+[Todo : Add Play video]
 
 ## 구조
 ![image](https://github.com/ln32/Project_RoglikeGame/assets/94381505/e8d9766c-99d1-414b-b960-ced06ef2a6c4)
