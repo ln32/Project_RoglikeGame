@@ -36,7 +36,15 @@
 
 https://github.com/user-attachments/assets/031dce7e-34bb-4a15-87e2-b5727d9a85f9
 
-[Todo : Add Play video]
+- Touch Event
+- Scene Change
+- Far Node Icon
+- Road Point
+- Road System
+- Detailed Nodes
+- Scene Change
+- Progressed Map
+
 
 ## 구조
 
