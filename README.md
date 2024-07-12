@@ -1,6 +1,6 @@
 # Project_RoglikeGame
 
-[Link Text](StartPage)
+[Link Text](/Wiki/StartPage)
 
 ## Posted Link
  https://jaehoon602.itch.io/map-inven-camp-shop-720p
