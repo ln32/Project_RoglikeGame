@@ -34,7 +34,7 @@
 
 ## 기능 
 
-![image](https://github.com/ln32/Project_RoglikeGame/assets/94381505/bc9be3b1-7cea-4538-a04d-66dbf847ba7d)
+https://github.com/user-attachments/assets/031dce7e-34bb-4a15-87e2-b5727d9a85f9
 
 [Todo : Add Play video]
 
@@ -55,7 +55,10 @@
 # [2] Inventory 개요
 
 ## 기능 
-![image](https://github.com/ln32/Project_RoglikeGame/assets/94381505/7e8fb4ff-bf5f-4e16-8997-0fce4af0af91)
+
+
+https://github.com/user-attachments/assets/5a286082-ec94-49da-bebe-253ffea4bce0
+
 
 [Todo : Add Play video]
 
@@ -77,7 +80,8 @@
 # [3] Camp 개요
 
 ## 기능 
-![image](https://github.com/ln32/Project_RoglikeGame/assets/94381505/7bdb1fc9-1486-4043-a07a-d5c18190a44b)
+
+https://github.com/user-attachments/assets/b127cdf9-86df-47b6-bf92-47c155727ee5
 
 
 
@@ -96,7 +100,7 @@
 
 # [4] Shop 개요
 
-![image](https://github.com/ln32/Project_RoglikeGame/assets/94381505/12050e4f-9593-4041-999f-d900e2583dbb)
+https://github.com/user-attachments/assets/d38c0b2c-4665-4737-94a6-07ce4a798eaf
 
 [Todo : Add Play video]
 
