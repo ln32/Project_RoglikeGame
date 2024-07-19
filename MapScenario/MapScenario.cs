@@ -100,7 +100,7 @@ public class MapScenario : MonoBehaviour
             Debug.Log("cant");
             return;
         }
-        _InvenDataEncoder.SetData_byItemList();
+        _InvenDataEncoder.GetData_toItemList();
         isAction = false;
 
         GameManager.gameManager.SetMapData_History(
@@ -137,9 +137,8 @@ public class MapScenario : MonoBehaviour
                 string[] skillEquipped = new string[2] { "Null", "Null" };
                 string[] weaponEquipped = null;
 
-                SGT_GUI_ItemData.GetCharInvenSGT(charIndex,ref skillEquipped, ref weaponEquipped);
+                SGT_GUI_ItemData.GetCharInvenSGT(charIndex,ref skillEquipped);
 
-                this.SetMapData_CharSkills(charIndex - 1, skillEquipped);
                 this.SetMapData_CharEquips(charIndex - 1, weaponEquipped);
             }
 
@@ -266,7 +265,7 @@ internal struct Values_UTIL
 {
     internal OverlayTrick CaptureBG;
     internal MyInputManager InputM;
-    internal InvenCtrl_MapSC CES;
+    internal MapScenario_InvenCtrl CES;
     internal _AsycLoadScene ALS;
 }
 

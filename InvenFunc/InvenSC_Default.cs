@@ -11,7 +11,7 @@ public class InvenSC_Default : MonoBehaviour
     void Start()
     {
         invenData_SGT.InitSGT(ref invenData_SGT);
-        ItemList_Data = invenData_SGT.itemUnits;
+        ItemList_Data = invenData_SGT.GetItemUnitList();
         setGUI_bySGT();
     }
 

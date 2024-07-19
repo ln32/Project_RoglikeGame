@@ -64,7 +64,7 @@ internal static class _MoveItemFunc
 
     static void FusionFunc(this iRoot_DDO_Manager _inven, SlotGUI_InvenSlot _src, SlotGUI_InvenSlot _dst)
     {
-        _inven.GetInvenSGT().itemUnits.Remove(_src._itemGUI._myData);
+        _inven.GetInvenSGT().RemoveItem_byItem(_src._itemGUI._myData);
         _src.SetItemData_byData(null);
 
         ItemUnit targetData = _dst._itemGUI._myData; 

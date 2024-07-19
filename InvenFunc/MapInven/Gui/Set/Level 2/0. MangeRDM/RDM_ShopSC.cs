@@ -1,9 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class RDM_ShopSC : MonoBehaviour, iRoot_DDO_Manager
 {
@@ -117,13 +113,17 @@ public class RDM_ShopSC : MonoBehaviour, iRoot_DDO_Manager
     public void PurchaseItemEffect(int target)
     {
         _REF.Inven_M.GoldEffect.PurchaseGoodsFunc(target);
-        _REF.InvenSC.invenData_SGT.currGold -= target;
+
+        int currGold = _REF.InvenSC.invenData_SGT.GetGold();
+        _REF.InvenSC.invenData_SGT.SetGold(currGold - target);
     }
 
     public void GainGoldEffect(int target)
     {
         _REF.Inven_M.GoldEffect.GainGold(target);
-        _REF.InvenSC.invenData_SGT.currGold += target;
+
+        int currGold = _REF.InvenSC.invenData_SGT.GetGold();
+        _REF.InvenSC.invenData_SGT.SetGold(currGold + target);
     }
 
     public void ShowGoldPrice(int price)

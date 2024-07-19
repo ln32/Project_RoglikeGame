@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -14,7 +13,7 @@ public class InvenSC_Map : MonoBehaviour
     void Awake()
     {
         invenData_SGT.InitSGT(ref invenData_SGT);
-        ItemList_Data = invenData_SGT.itemUnits;
+        ItemList_Data = invenData_SGT.GetItemUnitList();
     }
 
     private void Start()
@@ -71,8 +70,8 @@ public class InvenSC_Map : MonoBehaviour
             }
         }
 
-        setGUI_Map.MapGUI_GoldTopBar.text = SGT_GUI_ItemData.GetSGT().currGold + "";
-        setGUI_Map.MapGUI_GoldInven.text = SGT_GUI_ItemData.GetSGT().currGold + ""; 
+        setGUI_Map.MapGUI_GoldTopBar.text = SGT_GUI_ItemData.GetInstance().GetGold() + "";
+        setGUI_Map.MapGUI_GoldInven.text = SGT_GUI_ItemData.GetInstance().GetGold() + ""; 
     }
 }
 

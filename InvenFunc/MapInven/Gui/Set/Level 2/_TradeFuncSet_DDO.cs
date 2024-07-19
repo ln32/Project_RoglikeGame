@@ -9,6 +9,7 @@ internal static class _TradeFuncSet_DDO
         _inven._REF.Inven_M.GoldEffect.SetImg_TradeAble();
         return;
     }
+
     internal static void SetEffect_TradeDisable(this RDM_ShopSC _inven, SlotGUI_ShopGoods _src)
     {
         _inven._REF.Inven_M.GoldEffect.SetImg_TradeDisable();
@@ -70,9 +71,9 @@ internal static class _TradeFuncSet_DDO
         // Sell Event
         ItemUnit tempItem = _src._itemGUI._myData;
 
-        _inven._REF.GoldEFF.GoldEffect_byTrans(_src.transform, _inven._REF.Inven_M.GoldEffect.getGoldTextTransform());
+        _inven._REF.GoldEFF.GoldEffect_byTrans(_src.transform, _inven._REF.Inven_M.GoldEffect.GetGoldTextTransform());
         _inven.GainGoldEffect(tempItem.GoldValue);
-        _inven.GetInvenSGT().itemUnits.Remove(_src._itemGUI._myData);
+        _inven.GetInvenSGT().RemoveItem_byItem(_src._itemGUI._myData);
         _src.SetItemData_byData(null);
 
         return;
@@ -80,6 +81,6 @@ internal static class _TradeFuncSet_DDO
 
     internal static bool IsCanBuy_compGold(this RDM_ShopSC _inven, SlotGUI_ShopGoods _item)
     {
-        return _inven._REF.InvenSC.invenData_SGT.currGold > _item._itemGUI._myData.GoldValue;
+        return _inven._REF.InvenSC.invenData_SGT.GetGold() > _item._itemGUI._myData.GoldValue;
     }
 }

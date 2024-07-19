@@ -11,23 +11,7 @@ public class InvenSC_Shop : MonoBehaviour
     void Awake()
     {
         invenData_SGT.InitSGT(ref invenData_SGT);
-        ItemList_Data = invenData_SGT.itemUnits;
-    }
-
-
-    public void AddItem_Debug()
-    {
-        SlotGUI_InvenSlot targetSlot = invenGUI_Manager.GetSlotGUI_byMin();
-
-        if (!targetSlot)
-        {
-            return;
-        }
-
-        ItemUnit itemData = new ItemUnit();
-        itemData.InitData_Random_Slot(targetSlot);
-        ItemList_Data.Add(itemData);
-        addGUI_byData(itemData);
+        ItemList_Data = invenData_SGT.GetItemUnitList();
     }
 
 

@@ -6,7 +6,7 @@ public static class _RDM_CampCook
 {
     internal static void SetIngridiment_byInvenSlot(this RDM_CampCook _CookSC, SlotGUI_InvenSlot _src, RBD_IngridimentSlot _dst)
     {
-        var _SGT_GUI_ItemData = SGT_GUI_ItemData.GetSGT();
+        var _SGT_GUI_ItemData = SGT_GUI_ItemData.GetInstance();
         GUI_ItemUnit _itemGUI_Src = _src._itemGUI;
         int isCrash = _CookSC._GUI_IngridiSlotManager._values.IsDisAvabibleValue(_itemGUI_Src._myData.index);
 
@@ -99,7 +99,7 @@ public static class _RDM_CampCook
                 SlotGUI_InvenSlot targetInvenSlot = _CookSC._GUI_InvenSetManager.GetSlotGUI_byAddr(addr);
 
                 targetInvenSlot.SetItemData_byData(null);
-                _CookSC.invenSC.invenData_SGT.itemUnits.Remove(invenGUI[i]);
+                _CookSC.invenSC.invenData_SGT.RemoveItem_byItem(invenGUI[i]);
             }
         }
 

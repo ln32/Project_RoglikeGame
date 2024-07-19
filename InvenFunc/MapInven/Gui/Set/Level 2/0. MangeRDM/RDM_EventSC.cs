@@ -109,13 +109,13 @@ public class RDM_EventSC : MonoBehaviour, iRoot_DDO_Manager
     public void PurchaseItemEffect(int target)
     {
         m_inven.GoldEffect.PurchaseGoodsFunc(target);
-        _invenSC.invenData_SGT.currGold -= target;
+        _invenSC.invenData_SGT.SetGold(_invenSC.invenData_SGT.GetGold() - target);
     }
 
     public void GainGoldEffect(int target)
     {
         m_inven.GoldEffect.GainGold(target);
-        _invenSC.invenData_SGT.currGold += target;
+        _invenSC.invenData_SGT.SetGold(_invenSC.invenData_SGT.GetGold() + target);
     }
 
     public SGT_GUI_ItemData GetInvenSGT()

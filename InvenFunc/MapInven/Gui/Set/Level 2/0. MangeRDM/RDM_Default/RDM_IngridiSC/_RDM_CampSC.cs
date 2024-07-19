@@ -8,7 +8,7 @@ public static class _RDM_CampSC
 {
     internal static void SetIngridiment_byInvenSlot(this RDM_CampSC _CampSC, SlotGUI_InvenSlot _src, RBD_IngridimentSlot _dst)
     {
-        var _SGT_GUI_ItemData = SGT_GUI_ItemData.GetSGT();
+        var _SGT_GUI_ItemData = SGT_GUI_ItemData.GetInstance();
         GUI_ItemUnit _itemGUI_Src = _src._itemGUI;
         int isCrash = _CampSC._GUI_IngridiSlotManager._values.IsDisAvabibleValue(_itemGUI_Src._myData.index);
         
@@ -69,7 +69,7 @@ public static class _RDM_CampSC
                 SlotGUI_InvenSlot targetInvenSlot = _CampSC._GUI_InvenSetManager.GetSlotGUI_byAddr(addr);
 
                 targetInvenSlot.SetItemData_byData(null);
-                _CampSC.invenSC.invenData_SGT.itemUnits.Remove(invenGUI[i]);
+                _CampSC.invenSC.invenData_SGT.RemoveItem_byItem(invenGUI[i]);
             }
         }
 

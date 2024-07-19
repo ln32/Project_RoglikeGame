@@ -13,7 +13,7 @@ public class GUI_ShopGoodsSlotSet : MonoBehaviour
 
     public void FillUpGoods()
     {
-        SGT_GUI_ItemData invenData_SGT = SGT_GUI_ItemData.GetSGT();
+        SGT_GUI_ItemData invenData_SGT = SGT_GUI_ItemData.GetInstance();
 
         for (int i = 0; i < MySlotList.Count; i++)
         {

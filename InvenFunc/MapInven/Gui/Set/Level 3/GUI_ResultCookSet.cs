@@ -7,7 +7,7 @@ public class GUI_ResultCookSet : MonoBehaviour
     public SlotGUI_CookResult MySlotList;
     public void FillUpResultCook(int _input)
     {
-        SGT_GUI_ItemData invenData_SGT = SGT_GUI_ItemData.GetSGT();
+        SGT_GUI_ItemData invenData_SGT = SGT_GUI_ItemData.GetInstance();
 
         ItemUnit itemData = new ItemUnit();
         itemData.InitData_Random_Cooks(_input);
@@ -19,7 +19,7 @@ public class GUI_ResultCookSet : MonoBehaviour
 
     public void FillUpResultCook()
     {
-        SGT_GUI_ItemData invenData_SGT = SGT_GUI_ItemData.GetSGT();
+        SGT_GUI_ItemData invenData_SGT = SGT_GUI_ItemData.GetInstance();
 
         ItemUnit itemData = new ItemUnit();
         itemData.InitData_Random_Cooks();

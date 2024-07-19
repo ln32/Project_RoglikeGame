@@ -1,13 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public static class _InvenDataEncoder
 {
     internal static List<ItemUnit> GetData_toItemList()
     {
-        return StringData_ToItemList(GameManager.gameManager.invenData);
+        return StringDataToItemList(GameManager.gameManager.invenData);
     }
 
     internal static int GetData_toGoldValue()
@@ -17,23 +16,21 @@ public static class _InvenDataEncoder
             return -1;
         }
 
-        return StringData_ToGoldValue(GameManager.gameManager.invenData);
+        return StringDataToGoldValue(GameManager.gameManager.invenData);
     }
 
-    static string ItemListData_ToString(List<ItemUnit> _list)
+    private static string ItemListToString(List<ItemUnit> _list)
     {
-        string _str = "";
+        string result = "";
+
         for (int i = 0; i < _list.Count; i++)
         {
-            _str += _list[i].index + "/";
-            _str += parseList_toIntStr(_list[i].itemData) + "/"; ;
-            _str += parseList_toIntStr(_list[i].invenAddr) + "/"; ;
-            _str += _list[i].GoldValue + "/";
+            result += _list[i].index + "/";
+            result += parseList_toIntStr(_list[i].itemData) + "/"; ;
+            result += parseList_toIntStr(_list[i].invenAddr) + "/"; ;
+            result += _list[i].GoldValue + "/";
         }
-
-        return _str;
-
-
+        return result;
 
         string parseList_toIntStr(List<int> _input)
         {
@@ -46,61 +43,60 @@ public static class _InvenDataEncoder
         }
     }
 
-
-    static List<ItemUnit> StringData_ToItemList(string _str)
+    private static string ParseListToIntStr(List<int> list)
     {
-        List<ItemUnit> rtnList = new();
-        string[] sliced = _str.Split('/');
+        return string.Join("", list);
+    }
 
-        if (sliced.Length % 4 != 2)
+    private static List<ItemUnit> StringDataToItemList(string data)
+    {
+        var itemList = new List<ItemUnit>();
+        var slicedData = data.Split('/');
+
+        if (slicedData.Length % 4 != 2)
         {
             return null;
         }
 
-        for (int i = 1; i < sliced.Length-1; i+=4)
+        for (int i = 1; i < slicedData.Length - 1; i += 4)
         {
-            ItemUnit tempItem = new ItemUnit();
-            tempItem.itemName = "Inited Item";
-            tempItem.index = int.Parse(sliced[i]);
-            tempItem.itemData = parseIntStr_toList(sliced[i+1]);
-            tempItem.invenAddr = parseIntStr_toList(sliced[i+2]);
-            tempItem.GoldValue = int.Parse(sliced[i+3]);
-            rtnList.Add(tempItem);
-        }
-
-        return rtnList;
-
-        List<int> parseIntStr_toList(string _input)
-        {
-            List<int> rtn = new List<int>();
-            for (int i = 0; i < _input.Length; i++)
+            var item = new ItemUnit
             {
-                rtn.Add(_input[i] - 48);
-            }
-            return rtn;
+                itemName = "Inited Item",
+                index = int.Parse(slicedData[i]),
+                itemData = ParseIntStrToList(slicedData[i + 1]),
+                invenAddr = ParseIntStrToList(slicedData[i + 2]),
+                GoldValue = int.Parse(slicedData[i + 3])
+            };
+            itemList.Add(item);
         }
+
+        return itemList;
     }
 
-    static int StringData_ToGoldValue(string _str)
+    private static List<int> ParseIntStrToList(string data)
     {
-        string[] sliced = _str.Split('/');
-        if (sliced.Length % 4 != 2)
+        var list = new List<int>();
+        foreach (var ch in data)
         {
-            return -1;
+            list.Add(ch - '0'); // '0'을 빼서 숫자로 변환
         }
-
-        return int.Parse(sliced[0]);
+        return list;
     }
 
-
-    internal static void SetData_byItemList()
+    private static int StringDataToGoldValue(string data)
     {
-        var temp = SGT_GUI_ItemData.GetSGT();
+        var slicedData = data.Split('/');
+        return slicedData.Length % 4 == 2 ? int.Parse(slicedData[0]) : -1;
+    }
+
+    internal static void SetDataByItemList()
+    {
+        var temp = SGT_GUI_ItemData.GetInstance();
         if (temp != null)
         {
-            string cash = ItemListData_ToString(temp.itemUnits);
-            GameManager.gameManager.SetMapData_History(cash);
-            return;
+            string data = ItemListToString(temp.GetItemUnitList());
+            GameManager.gameManager.SetMapData_History(data);
         }
     }
 }
