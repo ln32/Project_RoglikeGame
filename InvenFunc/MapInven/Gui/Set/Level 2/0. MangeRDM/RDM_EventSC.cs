@@ -4,40 +4,40 @@ using UnityEngine;
 
 public class RDM_EventSC : MonoBehaviour, iRoot_DDO_Manager
 {
-    public MyInputManager _inputM;
-    public GUI_InvenSetManager m_inven;
-    public RBD_CasherZone InfoBox;
-    public InvenSC_Shop _invenSC;
-    public Transform _AboveOfAll;
+    protected MyInputManager inputManager;
+    protected GUI_InvenSetManager invenManager;
+    protected RBD_CasherZone infoBox;
+    protected InvenSC_Shop invenShop;
+    protected Transform aboveOfAll;
 
-    private Transform _itemTrans, _defaultParent;
+    private Transform itemTransform, defaultParent;
     private IDragDropObj targetDDO;
-    private IResponedByDrop currRBD;
+    private IResponedByDrop currentRBD;
 
-    public void SetSlotTransform_OnDrag(IDragDropObj _targetDDO)
+    public void SetSlotTransform_OnDrag(IDragDropObj targetDDO)
     {
-        if (_targetDDO.GetTransform_ItemGUI() == null)
+        if (targetDDO.GetTransform_ItemGUI() == null)
             return;
 
-        _inputM.setDuringState(true);
-        setDefaultState();
-        targetDDO = _targetDDO;
-        _itemTrans = _targetDDO.GetTransform_ItemGUI();
-        _defaultParent = _itemTrans.parent;
-        _itemTrans.SetParent(_AboveOfAll, false);
+        inputManager.setDuringState(true);
+        ResetDefaultState();
+        this.targetDDO = targetDDO;
+        itemTransform = targetDDO.GetTransform_ItemGUI();
+        defaultParent = itemTransform.parent;
+        itemTransform.SetParent(aboveOfAll, false);
     }
 
     public void ReturnToInit_EndDrag()
     {
-        if (IsDragObjExist() == false)
+        if (!IsDragObjExist())
             return;
 
-        _inputM.setDuringState(false);
-
-        _itemTrans.SetParent(_defaultParent, false);
-        targetDDO.InteractDDO_byGetRBD(currRBD);
-        setDefaultState();
-        _itemTrans = null; currRBD = null;
+        inputManager.setDuringState(false);
+        ResetItemTransform();
+        targetDDO.InteractDDO_byGetRBD(currentRBD);
+        ResetDefaultState();
+        itemTransform = null;
+        currentRBD = null;
     }
 
     public bool IsDragObjExist()
@@ -45,81 +45,89 @@ public class RDM_EventSC : MonoBehaviour, iRoot_DDO_Manager
         return targetDDO != null;
     }
 
-    public void SetEvent_OnEnter(IResponedByDrop _currRBD)
+    public void SetEvent_OnEnter(IResponedByDrop currentRBD)
     {
-        if (_itemTrans == null)
+        if (itemTransform == null)
         {
-            if (targetDDO as iInvenSlot == _currRBD as iInvenSlot)
-            {
-                _currRBD.GetTargetSlotGUI().SetColor_ONFOCUS();
-                return;
-            }
-            else
-            {
-                _currRBD.GetTargetSlotGUI().SetColor_ONFOCUS();
-                return;
-            }
+            HandleEventForSameSlot(currentRBD);
         }
         else
         {
-            if (targetDDO as iInvenSlot != _currRBD as iInvenSlot)
-            {
-
-                if (targetDDO.IsInteractable_byGetRBD(this, _currRBD))
-                {
-                    currRBD = _currRBD;
-                    _currRBD.GetTargetSlotGUI().SetColor_ABLE();
-                }
-                else
-                    _currRBD.GetTargetSlotGUI().SetColor_DISABLE();
-
-                return;
-            }
-            else if (_currRBD as RBD_CasherZone)
-            {
-                // ¾Æ¸¶ cash°¡ null
-                if (targetDDO.IsInteractable_byGetRBD(this, _currRBD))
-                {
-                    currRBD = _currRBD;
-                    _currRBD.GetTargetSlotGUI().SetColor_ABLE();
-                }
-                else
-                    _currRBD.GetTargetSlotGUI().SetColor_DISABLE();
-
-                return;
-            }
+            HandleEventForDifferentSlot(currentRBD);
         }
     }
 
-    public void SetEvent_OnExit(IResponedByDrop _currRBD = null)
+    public void SetEvent_OnExit(IResponedByDrop currentRBD = null)
     {
-        _currRBD.GetTargetSlotGUI().SetColor_DEFAULT();
-        setDefaultState();
+        currentRBD?.GetTargetSlotGUI().SetColor_DEFAULT();
+        ResetDefaultState();
     }
 
-    void setDefaultState()
+    private void HandleEventForSameSlot(IResponedByDrop currentRBD)
     {
-        if (currRBD != null)
+        if (targetDDO as iInvenSlot == currentRBD as iInvenSlot)
         {
-            currRBD.GetTargetSlotGUI().SetColor_DEFAULT();
+            currentRBD.GetTargetSlotGUI().SetColor_ONFOCUS();
         }
-        currRBD = null;
+        else
+        {
+            currentRBD.GetTargetSlotGUI().SetColor_ONFOCUS();
+        }
+    }
+
+    private void HandleEventForDifferentSlot(IResponedByDrop currentRBD)
+    {
+        if (targetDDO as iInvenSlot != currentRBD as iInvenSlot)
+        {
+            if (targetDDO.IsInteractable_byGetRBD(this, currentRBD))
+            {
+                this.currentRBD = currentRBD;
+                currentRBD.GetTargetSlotGUI().SetColor_ABLE();
+            }
+            else
+            {
+                currentRBD.GetTargetSlotGUI().SetColor_DISABLE();
+            }
+        }
+        else if (currentRBD is RBD_CasherZone)
+        {
+            if (targetDDO.IsInteractable_byGetRBD(this, currentRBD))
+            {
+                this.currentRBD = currentRBD;
+                currentRBD.GetTargetSlotGUI().SetColor_ABLE();
+            }
+            else
+            {
+                currentRBD.GetTargetSlotGUI().SetColor_DISABLE();
+            }
+        }
+    }
+
+    private void ResetDefaultState()
+    {
+        currentRBD?.GetTargetSlotGUI().SetColor_DEFAULT();
+        currentRBD = null;
+    }
+
+    private void ResetItemTransform()
+    {
+        itemTransform.SetParent(defaultParent, false);
     }
 
     public void PurchaseItemEffect(int target)
     {
-        m_inven.GoldEffect.PurchaseGoodsFunc(target);
-        _invenSC.invenData_SGT.SetGold(_invenSC.invenData_SGT.GetGold() - target);
+        invenManager.GoldEffect.PurchaseGoodsFunc(target);
+        invenShop.invenData_SGT.SetGold(invenShop.invenData_SGT.GetGold() - target);
     }
 
     public void GainGoldEffect(int target)
     {
-        m_inven.GoldEffect.GainGold(target);
-        _invenSC.invenData_SGT.SetGold(_invenSC.invenData_SGT.GetGold() + target);
+        invenManager.GoldEffect.GainGold(target);
+        invenShop.invenData_SGT.SetGold(invenShop.invenData_SGT.GetGold() + target);
     }
 
     public SGT_GUI_ItemData GetInvenSGT()
     {
-        return _invenSC.invenData_SGT;
+        return invenShop.invenData_SGT;
     }
 }

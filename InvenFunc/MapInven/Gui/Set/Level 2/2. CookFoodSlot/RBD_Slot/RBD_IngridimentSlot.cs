@@ -32,7 +32,7 @@ public class RBD_IngridimentSlot : MonoBehaviour, IResponedByDrop
             RDM_CampCook _RDM_CampCook = GetDDO_Manager() as RDM_CampCook;
             if (_RDM_CampCook)
             {
-                _RDM_CampCook.SetIngridiment_byInvenSlot(_src, this);
+                _RDM_CampCook.SetIngredient_byInvenSlot(_src, this);
                 return;
             }
         }

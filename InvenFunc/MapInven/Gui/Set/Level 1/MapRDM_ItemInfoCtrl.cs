@@ -1,45 +1,45 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class MapRDM_ItemInfoCtrl : MonoBehaviour
 {
-    [SerializeField] GameObject myVisualObj;
-    [SerializeField] TextMeshProUGUI value_ItemName;
-    [SerializeField] TextMeshProUGUI value_ItemType;
-    [SerializeField] List<string> first;
+    [SerializeField] private GameObject myVisualObj;
+    [SerializeField] private TextMeshProUGUI value_ItemName;
+    [SerializeField] private TextMeshProUGUI value_ItemType;
+    [SerializeField] private List<string> first;
 
     public void SetItemInfo_byItemDataUnit(iInvenSlot targetSlot)
     {
         if (targetSlot == null)
+        {
             SetDefault();
+            return;
+        }
 
         myVisualObj.SetActive(true);
 
-        SlotGUI_InvenSlot parsedSlot = targetSlot as SlotGUI_InvenSlot; 
-        if (parsedSlot == null) { SetDefault(); return; }
-
-        GUI_ItemUnit _GUI = parsedSlot._itemGUI; 
-        if (_GUI == null) { SetDefault(); return; }
-
-        ItemUnit _data = parsedSlot._itemGUI._myData;
-        value_ItemName.text = _data.itemName;
-
-        string temp = "";
-        for (int i = 0; i < _data.itemData.Count ; i++)
+        if (targetSlot is SlotGUI_InvenSlot parsedSlot && parsedSlot._itemGUI != null)
         {
-            temp += _data.itemData[i] + " / ";
+            GUI_ItemUnit gui = parsedSlot._itemGUI;
+            ItemUnit data = gui._myData;
+            value_ItemName.text = data.itemName;
+            value_ItemType.text = string.Join(" / ", data.itemData);
         }
-        value_ItemType.text = temp;
-    }    
-    
+        else
+        {
+            SetDefault();
+        }
+    }
+
     public void SetDefault()
     {
         myVisualObj.SetActive(false);
+        value_ItemName.text = string.Empty;
+        value_ItemType.text = string.Empty;
     }
 
-    void OnEnable()
+    private void OnEnable()
     {
         SetDefault();
     }

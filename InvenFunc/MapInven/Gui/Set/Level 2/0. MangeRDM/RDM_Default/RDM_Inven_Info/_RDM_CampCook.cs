@@ -4,113 +4,113 @@ using UnityEngine.UI;
 
 public static class _RDM_CampCook
 {
-    internal static void SetIngridiment_byInvenSlot(this RDM_CampCook _CookSC, SlotGUI_InvenSlot _src, RBD_IngridimentSlot _dst)
+    internal static void SetIngredient_byInvenSlot(this RDM_CampCook cookCamp, SlotGUI_InvenSlot sourceSlot, RBD_IngridimentSlot destinationSlot)
     {
-        var _SGT_GUI_ItemData = SGT_GUI_ItemData.GetInstance();
-        GUI_ItemUnit _itemGUI_Src = _src._itemGUI;
-        int isCrash = _CookSC._GUI_IngridiSlotManager._values.IsDisAvabibleValue(_itemGUI_Src._myData.index);
+        var itemData = SGT_GUI_ItemData.GetInstance();
+        GUI_ItemUnit sourceItemGUI = sourceSlot._itemGUI;
+        int crashIndex = cookCamp.GUI_IngridiSlotManager._values.IsDisAvabibleValue(sourceItemGUI._myData.index);
 
-        if (isCrash > -1)
+        // Handle item crash
+        if (crashIndex > -1)
         {
-            _CookSC._GUI_IngridiSlotManager._values.RBD_Slots[isCrash].SetDefault();
-            _CookSC.Event_SlotDropDown_toNull(isCrash);
+            cookCamp.GUI_IngridiSlotManager._values.RBD_Slots[crashIndex].SetDefault();
+            cookCamp.Event_SlotDropDown_toNull(crashIndex);
         }
 
-        _dst.SetDefault();
-        _dst.myGUI_Slot.value = _itemGUI_Src._myData.index;
+        // Set destination slot with source item
+        destinationSlot.SetDefault();
+        destinationSlot.myGUI_Slot.value = sourceItemGUI._myData.index;
 
-        if (true)
-        {
-            GUI_ItemUnit _itemGUI_Dst = _SGT_GUI_ItemData.spriteDataSet.GetGUI_byItemData(_src._itemGUI._myData.itemData, _dst.transform);
-            _itemGUI_Dst._myData = _src._itemGUI._myData;
-            _dst._GUI_ItemUnit = _itemGUI_Dst;
+        GUI_ItemUnit destinationItemGUI = itemData.spriteDataSet.GetGUI_byItemData(sourceSlot._itemGUI._myData.itemData, destinationSlot.transform);
+        destinationItemGUI._myData = sourceSlot._itemGUI._myData;
+        destinationSlot._GUI_ItemUnit = destinationItemGUI;
 
-            if (true)
-            {
-                RectTransform trans_src = _dst._GUI_ItemUnit.transform.GetComponent<RectTransform>();
-                RectTransform trans_dst = _dst.transform.GetComponent<RectTransform>();
+        // Adjust item size
+        AdjustItemSize(destinationSlot._GUI_ItemUnit.transform, destinationSlot.transform);
 
-                RectTransform _RectTransform = trans_src.transform.GetComponent<RectTransform>();
-                _RectTransform.sizeDelta = trans_dst.GetComponent<RectTransform>().sizeDelta;
-            }
+        // Update GUI effects
+        destinationSlot.myGUI_Slot.GUI_EffectImg.color = destinationSlot.myGUI_Slot.GUI_EffectColor;
+        destinationSlot.myGUI_Slot.defaultImg = destinationSlot.myGUI_Slot.GUI_myImg.sprite;
 
-            _dst.myGUI_Slot.GUI_EffectImg.color = _dst.myGUI_Slot.GUI_EffectColor;
-            _dst.myGUI_Slot.defaultImg = _dst.myGUI_Slot.GUI_myImg.sprite;
-        }
+        sourceSlot._itemGUI.SetSizeAuto();
 
+        // Refresh the ingredient slot manager GUI
+        cookCamp.GUI_IngridiSlotManager.RefreshMyGUI();
 
-        _src._itemGUI.SetSizeAuto();
-
-        // Refresh result board 
-        _CookSC._GUI_IngridiSlotManager.RefreshMyGUI();
-
-        // Set Inven GUI _im focused
-        _CookSC.Event_SlotDropDown(_src, _dst);
-        return;
+        // Set inventory GUI focus
+        cookCamp.Event_SlotDropDown(sourceSlot, destinationSlot);
     }
 
-    internal static void GetInvenItem_byItemIndex(this RDM_CampCook _CookSC)
+    internal static void GetInvenItem_byItemIndex(this RDM_CampCook cookCamp)
     {
-        GUI_IngridiSlotManager _m = _CookSC._GUI_IngridiSlotManager;
-        if (true)
+        var ingredientSlotManager = cookCamp.GUI_IngridiSlotManager;
+
+        // Check if ingredients are ready
+        if (!ingredientSlotManager._values.checkCurr())
         {
-            // Check ingridiment is Ready
-            if (_m._values.checkCurr() == false)
-            {
-                Debug.Log("need indegri");
-                return;
-            }
+            Debug.Log("Ingredients are not ready.");
+            return;
         }
 
-        int targetLevel = 0;
-        if (true)
+        // Determine target level based on ingredient pattern
+        int targetLevel = DetermineTargetLevel(ingredientSlotManager);
+
+        // Update inventory data
+        UpdateInventoryData(cookCamp, ingredientSlotManager);
+
+        // Perform cooking function on ingredients
+        ingredientSlotManager.CookFunc_onIngridiment();
+
+        // Update result cook set
+        cookCamp.GUI_ResultCookSet.FillUpResultCook(targetLevel);
+
+        // Reset ingredient slot manager
+        cookCamp.GUI_IngridiSlotManager.Event_Reset();
+    }
+
+    private static void AdjustItemSize(Transform sourceTransform, Transform destinationTransform)
+    {
+        RectTransform sourceRectTransform = sourceTransform.GetComponent<RectTransform>();
+        RectTransform destinationRectTransform = destinationTransform.GetComponent<RectTransform>();
+        sourceRectTransform.sizeDelta = destinationRectTransform.sizeDelta;
+    }
+
+    private static int DetermineTargetLevel(GUI_IngridiSlotManager ingredientSlotManager)
+    {
+        Vector3Int stdV2_X, stdV2_Y;
+        List<Vector2Int> patternData = ingredientSlotManager._IngredientPoker.Check_PatternList();
+        ingredientSlotManager._IngredientPoker.GetV3_byData(patternData, out stdV2_X, out stdV2_Y);
+
+        int minLevel = Mathf.Min(stdV2_X.z, stdV2_Y.z);
+        int maxLevel = stdV2_X.z + stdV2_Y.z;
+        int targetLevel = Mathf.Min(Random.Range(minLevel, maxLevel), 6);
+
+        Debug.Log($"{targetLevel} / {stdV2_X} / {stdV2_Y}");
+
+        return targetLevel;
+    }
+
+    private static void UpdateInventoryData(RDM_CampCook cookCamp, GUI_IngridiSlotManager ingredientSlotManager)
+    {
+        int[] ingredientIndices = ingredientSlotManager._values.GetCookSlotsItemIndex();
+
+        List<ItemUnit> inventoryItems = new();
+        List<SlotGUI_InvenSlot> inventorySlotList = cookCamp.invenSC.invenGUI_Manager.myInvenSet[0].MySlotList;
+
+        // Collect items from inventory slots
+        foreach (int index in ingredientIndices)
         {
-            Vector3Int stdV2_X = new Vector3Int(0, 0, 0);
-            Vector3Int stdV2_Y = new Vector3Int(0, 0, 0);
-            List<Vector2Int> _rtnData = _CookSC._GUI_IngridiSlotManager._IngredientPoker.Check_PatternList();
-            _CookSC._GUI_IngridiSlotManager._IngredientPoker.GetV3_byData(_rtnData,out stdV2_X, out stdV2_Y);
-            int temp_Min = Mathf.Min(stdV2_X.z, stdV2_Y.z);
-            int temp_Max = (stdV2_X.z + stdV2_Y.z);
-            targetLevel = Mathf.Min(Random.Range(temp_Min, temp_Max),6);
-            Debug.Log(targetLevel + " / "+stdV2_X + " / " + stdV2_Y);
+            if (index == -1) continue;
+            inventoryItems.Add(inventorySlotList[index].GetMyItemGUI()._itemGUI._myData);
         }
 
-        // Data Set (inven Data)
-        if (true)
+        // Remove collected items from inventory
+        foreach (var item in inventoryItems)
         {
-            int[] temp = _m._values.GetCookSlotsItemIndex();
-
-            List<ItemUnit> invenGUI = new();
-            List<SlotGUI_InvenSlot> _ItemList_Data = _CookSC.invenSC.invenGUI_Manager.myInvenSet[0].MySlotList;
-
-            // filtering 2
-            for (int i = 0; i < temp.Length; i++)
-            {
-                if (temp[i] == -1)
-                    continue;
-
-                invenGUI.Add(_ItemList_Data[temp[i]].GetMyItemGUI()._itemGUI._myData);
-            }
-
-            // Delete Filtered
-            for (int i = 0; i < invenGUI.Count; i++)
-            {
-                List<int> addr = invenGUI[i].invenAddr;
-                SlotGUI_InvenSlot targetInvenSlot = _CookSC._GUI_InvenSetManager.GetSlotGUI_byAddr(addr);
-
-                targetInvenSlot.SetItemData_byData(null);
-                _CookSC.invenSC.invenData_SGT.RemoveItem_byItem(invenGUI[i]);
-            }
+            List<int> address = item.invenAddr;
+            SlotGUI_InvenSlot targetSlot = cookCamp.GUI_InvenSetManager.GetSlotGUI_byAddr(address);
+            targetSlot.SetItemData_byData(null);
+            cookCamp.invenSC.invenData_SGT.RemoveItem_byItem(item);
         }
-
-        // Slot Set
-        if (true)
-        {
-            _m.CookFunc_onIngridiment();
-        }
-
-        _CookSC._GUI_ResultCookSet.FillUpResultCook(targetLevel);
-        _CookSC._GUI_IngridiSlotManager.Event_Reset();
-        return;
     }
 }

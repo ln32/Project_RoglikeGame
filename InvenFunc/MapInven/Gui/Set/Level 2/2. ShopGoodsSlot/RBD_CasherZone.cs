@@ -88,7 +88,7 @@ public class RBD_CasherZone : MonoBehaviour, IResponedByDrop
 
         this.SetGUI_Default(currItemGUI);
         text.text = " .";
-        currItemGUI.SetImageGUI_Material(null);
+        currItemGUI.SetImageGUI_toMaterial(null);
         currItemGUI = null; 
         isInven = null;
     }

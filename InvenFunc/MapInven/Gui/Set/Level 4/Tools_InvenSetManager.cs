@@ -4,82 +4,71 @@ using UnityEngine;
 
 internal static class Tools_InvenSetManager
 {
-    static internal GUI_ItemUnit GetGUI_byItemData(this MyInvenSpriteDB _dataSet, List<int> _itemData,Transform _trans)
+    static internal GUI_ItemUnit GetGUI_byItemData(this MyInvenSpriteDB dataSet, List<int> itemData, Transform trans)
     {
-        GUI_ItemUnit obj = Object.Instantiate(_dataSet.invenPrefab, _trans);
+        GUI_ItemUnit obj = Object.Instantiate(dataSet.invenPrefab, trans);
+        obj.SetImageGUI_toSprite(dataSet.GetSprite_byItemData(itemData));
 
-        obj.SetImageGUI_Sprite(_dataSet.GetSprite_byItemData(_itemData));
-
-        if (true)
+        if (itemData[0] == 0)
         {
-            if (_itemData[0] == 0)
-            {
-                Sprite target = _dataSet._Value_Dice.DB_DiceSpriteRoot.myData[_itemData[_itemData.Count - 1]];
-                Color target2 = _dataSet._Value_Dice.color_Case[_itemData[_itemData.Count - 2]];
-                if (_itemData[1] == 0)
-                    obj.SetGui_ToIngredient(target, target2);
-                else
-                    obj.SetGui_ToIngredient(target, target2);
-            }
-            else
-            {
-                string temp = "Lv ";
-                temp += _itemData[_itemData.Count - 1];
-                obj.SetNameText(temp);
-            }
+            Sprite target = dataSet._Value_Dice.DB_DiceSpriteRoot.myData[itemData[^1]];
+            Color targetColor = dataSet._Value_Dice.color_Case[itemData[^2]];
+            obj.SetGui_toIngredient(target, targetColor);
+        }
+        else
+        {
+            string levelText = "Lv " + itemData[^1];
+            obj.SetNameText(levelText);
         }
 
-        obj.SetSizeAuto(_trans);
+        obj.SetSizeAuto(trans);
         return obj;
     }
 
-    static internal SlotGUI_InvenSlot GetSlotGUI_byAddr(this GUI_InvenSetManager _inven, List<int> _addrData)
+    static internal SlotGUI_InvenSlot GetSlotGUI_byAddr(this GUI_InvenSetManager inven, List<int> addrData)
     {
-        int _invenIndex = _addrData[0];
-        int _slotIndex = _addrData[1]; 
-        if (_inven.myInvenSet.Count <= _invenIndex)
-            return null;
+        int invenIndex = addrData[0];
+        int slotIndex = addrData[1];
 
-        if(_inven.myInvenSet[_invenIndex].MySlotList.Count <= _slotIndex)
-            return null;
-
-        return _inven.myInvenSet[_invenIndex].MySlotList[_slotIndex];
-    }
-
-    static internal SlotGUI_InvenSlot GetSlotGUI_byMin(this GUI_InvenSetManager _inven)
-    {
-        for (int i = 0; i < _inven.myInvenSet[0].MySlotList.Count; i++)
+        if (inven.myInvenSet.Count > invenIndex && inven.myInvenSet[invenIndex].MySlotList.Count > slotIndex)
         {
-            if (_inven.myInvenSet[0].MySlotList[i]._itemGUI == null)
-                return _inven.myInvenSet[0].MySlotList[i];
+            return inven.myInvenSet[invenIndex].MySlotList[slotIndex];
         }
-
         return null;
     }
 
-    static internal void SetItemData_byData(this SlotGUI_InvenSlot _inven, ItemUnit _item)
+    static internal SlotGUI_InvenSlot GetSlotGUI_byMin(this GUI_InvenSetManager inven)
     {
-        _inven._itemGUI._myData = _item;
-        if (_item == null)
+        foreach (var slot in inven.myInvenSet[0].MySlotList)
         {
-            Object.Destroy(_inven._itemGUI.gameObject);
-            _inven.SetGUI_byItemGUI(null);
-        }    
-
-        return;
+            if (slot._itemGUI == null)
+            {
+                return slot;
+            }
+        }
+        return null;
     }
 
-    static internal void SetItemData_byData(this SlotGUI_ShopGoods _inven, ItemUnit _item)
+    static internal void SetItemData_byData(this SlotGUI_InvenSlot inven, ItemUnit item)
     {
-        _inven._itemGUI._myData = _item;
-
-        return;
+        if (item == null)
+        {
+            Object.Destroy(inven._itemGUI.gameObject);
+            inven.SetGUI_byItemGUI(null);
+        }
+        else
+        {
+            inven._itemGUI._myData = item;
+        }
     }
 
-    static internal void SetItemData_byData(this SlotGUI_CookResult _inven, ItemUnit _item)
+    static internal void SetItemData_byData(this SlotGUI_ShopGoods inven, ItemUnit item)
     {
-        _inven._itemGUI._myData = _item;
+        inven._itemGUI._myData = item;
+    }
 
-        return;
+    static internal void SetItemData_byData(this SlotGUI_CookResult inven, ItemUnit item)
+    {
+        inven._itemGUI._myData = item;
     }
 }

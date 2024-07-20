@@ -1,86 +1,72 @@
 using System.Collections.Generic;
-using System.Data;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
+using static Tools_InvenSetManager;
 
 public static class _RDM_CampSC
 {
-    internal static void SetIngridiment_byInvenSlot(this RDM_CampSC _CampSC, SlotGUI_InvenSlot _src, RBD_IngridimentSlot _dst)
+    internal static void SetIngredientByInventorySlot(this RDM_CampSC campSC, SlotGUI_InvenSlot src_Slot, RBD_IngridimentSlot dst_Slot)
     {
-        var _SGT_GUI_ItemData = SGT_GUI_ItemData.GetInstance();
-        GUI_ItemUnit _itemGUI_Src = _src._itemGUI;
-        int isCrash = _CampSC._GUI_IngridiSlotManager._values.IsDisAvabibleValue(_itemGUI_Src._myData.index);
-        
-        if(isCrash > -1)
+        var guiItemData = SGT_GUI_ItemData.GetInstance();
+        GUI_ItemUnit sourceItemGUI = src_Slot._itemGUI;
+        int conflictIndex = campSC._GUI_IngridiSlotManager._values.IsDisAvabibleValue(sourceItemGUI._myData.index);
+
+        if (conflictIndex > -1)
         {
-            _CampSC._GUI_IngridiSlotManager._values.RBD_Slots[isCrash].SetDefault();
+            campSC._GUI_IngridiSlotManager._values.RBD_Slots[conflictIndex].SetDefault();
         }
 
-        _dst.SetDefault();
-        _dst.myGUI_Slot.value = _itemGUI_Src._myData.index;
+        dst_Slot.SetDefault();
+        dst_Slot.myGUI_Slot.value = sourceItemGUI._myData.index;
 
-        if (true)
-        {
-            GUI_ItemUnit _itemGUI_Dst = _SGT_GUI_ItemData.spriteDataSet.GetGUI_byItemData(_src._itemGUI._myData.itemData, _dst.transform);
-            _itemGUI_Dst._myData = _src._itemGUI._myData;
-            _dst._GUI_ItemUnit = _itemGUI_Dst;
+        GUI_ItemUnit destinationItemGUI = guiItemData.spriteDataSet.GetGUI_byItemData(sourceItemGUI._myData.itemData, dst_Slot.transform);
+        destinationItemGUI._myData = sourceItemGUI._myData;
+        dst_Slot._GUI_ItemUnit = destinationItemGUI;
 
-            _dst.myGUI_Slot.GUI_EffectImg.color = _dst.myGUI_Slot.GUI_EffectColor;
-            _dst.myGUI_Slot.defaultImg = _dst.myGUI_Slot.GUI_myImg.sprite;
-        }
+        dst_Slot.myGUI_Slot.GUI_EffectImg.color = dst_Slot.myGUI_Slot.GUI_EffectColor;
+        dst_Slot.myGUI_Slot.defaultImg = dst_Slot.myGUI_Slot.GUI_myImg.sprite;
 
-        _src._itemGUI.SetSizeAuto();
-        _CampSC._GUI_IngridiSlotManager.RefreshMyGUI();
-        return;
+        src_Slot._itemGUI.SetSizeAuto();
+        campSC._GUI_IngridiSlotManager.RefreshMyGUI();
     }
 
-    internal static void GetInvenItem_byItemIndex(this RDM_CampSC _CampSC)
+    internal static void GetInventoryItems_byItemIndex(this RDM_CampSC campSC)
     {
-        GUI_IngridiSlotManager _m = _CampSC._GUI_IngridiSlotManager;
-        if (true)
+        GUI_IngridiSlotManager ingredientSlotManager = campSC._GUI_IngridiSlotManager;
+        if (!ingredientSlotManager._values.checkCurr())
+            return;
+
+        int[] ingredientIndexes = ingredientSlotManager._values.GetCookSlotsItemIndex();
+        List<ItemUnit> inventoryItems = GetInventoryItems(campSC, ingredientIndexes);
+
+        RemoveFilteredItems(campSC, inventoryItems);
+
+        ingredientSlotManager.CookFunc_onIngridiment();
+        ingredientSlotManager.Event_Reset();
+    }
+
+    internal static List<ItemUnit> GetInventoryItems(RDM_CampSC campSC, int[] ingredientAry)
+    {
+        List<ItemUnit> inventoryItems = new();
+        List<SlotGUI_InvenSlot> itemListData = campSC.invenSC.invenGUI_Manager.myInvenSet[0].MySlotList;
+
+        for (int i = 0; i < ingredientAry.Length; i++)
         {
-            // Check ingridiment is Ready
-            if (_m._values.checkCurr() == false)
-                return;
+            if (ingredientAry[i] == -1)
+                continue;
+            inventoryItems.Add(itemListData[ingredientAry[i]].GetMyItemGUI()._itemGUI._myData);
         }
 
-        // Data Set (inven Data)
-        if (true)
+        return inventoryItems;
+    }
+
+    private static void RemoveFilteredItems(RDM_CampSC campSC, List<ItemUnit> inventoryItems)
+    {
+        foreach (var item in inventoryItems)
         {
-            int[] temp = _m._values.GetCookSlotsItemIndex();
+            List<int> address = item.invenAddr;
+            SlotGUI_InvenSlot targetSlot = campSC._GUI_InvenSetManager.GetSlotGUI_byAddr(address);
 
-            List<ItemUnit> invenGUI = new();
-            List<SlotGUI_InvenSlot> _ItemList_Data = _CampSC.invenSC.invenGUI_Manager.myInvenSet[0].MySlotList;
-            
-            // filtering 2
-            for (int i = 0; i < temp.Length; i++)
-            {
-                if (temp[i] == -1)
-                    continue;
-                invenGUI.Add(_ItemList_Data[temp[i]].GetMyItemGUI()._itemGUI._myData);
-            }
-
-            // Delete Filtered
-            for (int i = 0; i < invenGUI.Count; i++)
-            {
-                List<int> addr = invenGUI[i].invenAddr;
-
-                SlotGUI_InvenSlot targetInvenSlot = _CampSC._GUI_InvenSetManager.GetSlotGUI_byAddr(addr);
-
-                targetInvenSlot.SetItemData_byData(null);
-                _CampSC.invenSC.invenData_SGT.RemoveItem_byItem(invenGUI[i]);
-            }
+            targetSlot.SetItemData_byData(null);
+            campSC.invenSC.invenData_SGT.RemoveItem_byItem(item);
         }
-
-        // Slot Set
-        if (true)
-        {
-            _m.CookFunc_onIngridiment();
-        }
-
-        //_CampSC._GUI_ResultCookSet.FillUpResultCook();
-        _CampSC._GUI_IngridiSlotManager.Event_Reset();
-        return;
     }
 }

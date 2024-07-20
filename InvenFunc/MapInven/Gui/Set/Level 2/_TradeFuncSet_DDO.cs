@@ -1,86 +1,65 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 internal static class _TradeFuncSet_DDO
 {
-    internal static void SetEffect_TradeAble(this RDM_ShopSC _inven, SlotGUI_ShopGoods _src)
+    internal static void SetEffect_TradeAble(this RDM_ShopSC inven, SlotGUI_ShopGoods src)
     {
-        _inven._REF.Inven_M.GoldEffect.SetImg_TradeAble();
-        return;
+        inven._REF.Inven_M.GoldEffect.SetImg_TradeAble();
     }
 
-    internal static void SetEffect_TradeDisable(this RDM_ShopSC _inven, SlotGUI_ShopGoods _src)
+    internal static void SetEffect_TradeDisable(this RDM_ShopSC inven, SlotGUI_ShopGoods src)
     {
-        _inven._REF.Inven_M.GoldEffect.SetImg_TradeDisable();
-        return;
-    }
-    internal static void SetEffect_TradeDefault(this RDM_ShopSC _inven)
-    {
-        _inven._REF.Inven_M.GoldEffect.SetImg_TradeDefault();
-        return;
+        inven._REF.Inven_M.GoldEffect.SetImg_TradeDisable();
     }
 
-    internal static void Check_DragStart(this RDM_ShopSC _inven, IDragDropObj _src)
+    internal static void SetEffect_TradeDefault(this RDM_ShopSC inven)
     {
-        if (_src as SlotGUI_ShopGoods == false)
+        inven._REF.Inven_M.GoldEffect.SetImg_TradeDefault();
+    }
+
+    internal static void Check_DragStart(this RDM_ShopSC inven, IDragDropObj src)
+    {
+        if (src is SlotGUI_ShopGoods shopGoods)
         {
-            return;
+            inven.ShowGoldPrice(shopGoods._itemGUI._myData.GoldValue);
         }
-
-        SlotGUI_ShopGoods _ShopGoods = _src as SlotGUI_ShopGoods;
-        _inven.ShowGoldPrice(_ShopGoods._itemGUI._myData.GoldValue);
-
-        return;
     }
 
-    internal static void Check_DragEnd(this RDM_ShopSC _inven, IDragDropObj _src)
+    internal static void Check_DragEnd(this RDM_ShopSC inven, IDragDropObj src)
     {
-        if (_src as SlotGUI_ShopGoods == false)
+        if (src is SlotGUI_ShopGoods shopGoods)
         {
-            return;
+            inven.CloseGoldPrice(shopGoods._itemGUI._myData.GoldValue);
         }
-
-        SlotGUI_ShopGoods _ShopGoods = _src as SlotGUI_ShopGoods;
-        _inven.CloseGoldPrice(_ShopGoods._itemGUI._myData.GoldValue);
-
-        return;
     }
 
-    internal static bool BuyItem_byDragDrop(this RDM_ShopSC _inven, SlotGUI_ShopGoods _src, SlotGUI_InvenSlot _dst)
+    internal static bool BuyItem_byDragDrop(this RDM_ShopSC inven, SlotGUI_ShopGoods src, SlotGUI_InvenSlot dst)
     {
-        // no gold
-        if (_inven.IsCanBuy_compGold(_src) == false)
+        if (!inven.IsCanBuy_compGold(src))
         {
             return false;
         }
 
-        _inven.PurchaseItemEffect(_src._itemGUI._myData.GoldValue);
+        inven.PurchaseItemEffect(src._itemGUI._myData.GoldValue);
+        inven.GetInvenSGT().AddItemUnit_byPurchase(src._itemGUI._myData);
 
-        _inven.GetInvenSGT().AddItemUnit_byPurchase(_src._itemGUI._myData);
-
-        GUI_ItemUnit _srcGUI = _src._itemGUI;
-        _dst.SetGUI_byItemGUI(_srcGUI);
-        _src.SetGUI_byItemGUI(null);
+        GUI_ItemUnit srcGUI = src._itemGUI;
+        dst.SetGUI_byItemGUI(srcGUI);
+        src.SetGUI_byItemGUI(null);
 
         return true;
     }
 
-    internal static void Sell_Item_byBtnClick(this RDM_ShopSC _inven, SlotGUI_InvenSlot _src)
+    internal static void Sell_Item_byBtnClick(this RDM_ShopSC inven, SlotGUI_InvenSlot src)
     {
-        // Sell Event
-        ItemUnit tempItem = _src._itemGUI._myData;
+        ItemUnit tempItem = src._itemGUI._myData;
 
-        _inven._REF.GoldEFF.GoldEffect_byTrans(_src.transform, _inven._REF.Inven_M.GoldEffect.GetGoldTextTransform());
-        _inven.GainGoldEffect(tempItem.GoldValue);
-        _inven.GetInvenSGT().RemoveItem_byItem(_src._itemGUI._myData);
-        _src.SetItemData_byData(null);
-
-        return;
+        inven._REF.GoldEFF.GoldEffect_byTrans(src.transform, inven._REF.Inven_M.GoldEffect.GetGoldTextTransform());
+        inven.GainGoldEffect(tempItem.GoldValue);
+        inven.GetInvenSGT().RemoveItem_byItem(tempItem);
+        src.SetItemData_byData(null);
     }
 
-    internal static bool IsCanBuy_compGold(this RDM_ShopSC _inven, SlotGUI_ShopGoods _item)
+    internal static bool IsCanBuy_compGold(this RDM_ShopSC inven, SlotGUI_ShopGoods item)
     {
-        return _inven._REF.InvenSC.invenData_SGT.GetGold() > _item._itemGUI._myData.GoldValue;
+        return inven._REF.InvenSC.invenData_SGT.GetGold() > item._itemGUI._myData.GoldValue;
     }
 }

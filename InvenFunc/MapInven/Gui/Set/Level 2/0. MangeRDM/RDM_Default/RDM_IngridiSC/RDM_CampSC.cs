@@ -1,15 +1,11 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Diagnostics;
-
 public class RDM_CampSC : RDM_Default
 {
-    public GUI_IngridiSlotManager _GUI_IngridiSlotManager;
-    public GUI_InvenSetManager _GUI_InvenSetManager;
-    public GUI_ResultCookSet _GUI_ResultCookSet;
-    public InvenSC_Default invenSC;
+    internal InvenSC_Default invenSC;
+    internal GUI_IngridiSlotManager _GUI_IngridiSlotManager;
+    internal GUI_InvenSetManager _GUI_InvenSetManager;
+    protected GUI_ResultCookSet _GUI_ResultCookSet;
+
 
     private void Start()
     {
@@ -18,7 +14,7 @@ public class RDM_CampSC : RDM_Default
 
     public void BtnEvent_Cook()
     {
-        this.GetInvenItem_byItemIndex();
+        this.GetInventoryItems_byItemIndex();
         _GUI_IngridiSlotManager.RefreshMyGUI();
     }
 }

@@ -1,37 +1,36 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class RDM_CampCook : RDM_Inven_Info
 {
-    public GUI_IngridiSlotManager _GUI_IngridiSlotManager;
-    public GUI_InvenSetManager _GUI_InvenSetManager;
-    public GUI_ResultCookSet _GUI_ResultCookSet;
-    public InvenSC_Default invenSC;
+    internal GUI_IngridiSlotManager GUI_IngridiSlotManager;
+    internal GUI_InvenSetManager GUI_InvenSetManager;
+    internal GUI_ResultCookSet GUI_ResultCookSet;
+    internal InvenSC_Default invenSC;
+
+    [SerializeField] internal List<MyCookSlotIndicator> myCookSlotIndicatorList;
 
     private void Start()
     {
         _REF._SGT_GUI_ItemData = invenSC.invenData_SGT;
     }
 
-    [SerializeField] internal List<MyCookSlotIndicator> _MyCookSlotIndicatorList;
     public void Event_SlotDropDown(SlotGUI_InvenSlot _src, RBD_IngridimentSlot _dst)
     {
-        _MyCookSlotIndicatorList[_dst._index].SetEvent_SlotDropDown(_src, _dst);
+        myCookSlotIndicatorList[_dst._index].SetEvent_SlotDropDown(_src, _dst);
     }
 
     public void Event_SlotDropDown_toNull(int _index)
     {
-        _MyCookSlotIndicatorList[_index].SetEvent_SlotDropDown_toNull();
-
+        myCookSlotIndicatorList[_index].SetEvent_SlotDropDown_toNull();
     }
+
     public void Event_ResetSlotEffect()
     {
-        for (int i = 0; i < _MyCookSlotIndicatorList.Count; i++)
+        for (int i = 0; i < myCookSlotIndicatorList.Count; i++)
         {
-            _MyCookSlotIndicatorList[i].SetEvent_SlotDropDown_toNull();
+            myCookSlotIndicatorList[i].SetEvent_SlotDropDown_toNull();
         }
     }
 }
