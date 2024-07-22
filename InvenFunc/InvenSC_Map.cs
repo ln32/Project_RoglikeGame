@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class InvenSC_Map : MonoBehaviour
 {
-    public SGT_GUI_ItemData invenData_SGT;
-    public GUI_InvenSetManager invenGUI_Manager;
-    public List<ItemUnit> ItemList_Data;
-
+    [SerializeField] internal SGT_GUI_ItemData invenData_SGT;
+    [SerializeField] internal GUI_InvenSetManager invenGUI_Manager;
+    [SerializeField] internal List<ItemUnit> ItemList_Data;
+    [SerializeField] internal SetOfGUI_Map setGUI_Map;
 
     void Awake()
     {
@@ -18,14 +18,7 @@ public class InvenSC_Map : MonoBehaviour
 
     private void Start()
     {
-
-        setCharData_DEBUG();
         setGUI_bySGT();
-
-        void setCharData_DEBUG()
-        {
-            Debug.Log("getCharData_DEBUG");
-        }
     }
 
     public void Event_AddRandomItem()
@@ -34,7 +27,8 @@ public class InvenSC_Map : MonoBehaviour
 
         if (!targetSlot)
         {
-            Debug.Log("Inven is Full"); return;
+            //Inven is Full
+            return;
         }
 
         ItemUnit itemData = new ItemUnit();
@@ -44,17 +38,6 @@ public class InvenSC_Map : MonoBehaviour
         addGUI_byData(itemData);
     }
 
-
-    internal void addGUI_byData(ItemUnit data)
-    {
-        SlotGUI_InvenSlot targetSlot = invenGUI_Manager.GetSlotGUI_byAddr(data.invenAddr);
-        GUI_ItemUnit ins_ItemGUI = invenData_SGT.spriteDataSet.GetGUI_byItemData(data.itemData, invenGUI_Manager._InsTrans);
-
-        targetSlot.SetGUI_byItemGUI(ins_ItemGUI);
-        targetSlot.SetItemData_byData(data);
-    }
-
-    [SerializeField] internal SetOfGUI_Map setGUI_Map;
     public void setGUI_bySGT()
     {  
         for (int i = 0; i < ItemList_Data.Count; i++)
@@ -70,8 +53,17 @@ public class InvenSC_Map : MonoBehaviour
             }
         }
 
-        setGUI_Map.MapGUI_GoldTopBar.text = SGT_GUI_ItemData.GetInstance().GetGold() + "";
-        setGUI_Map.MapGUI_GoldInven.text = SGT_GUI_ItemData.GetInstance().GetGold() + ""; 
+        setGUI_Map.MapGUI_GoldTopBar.text = SGT_GUI_ItemData.GetInstance().GetCurrGold() + "";
+        setGUI_Map.MapGUI_GoldInven.text = SGT_GUI_ItemData.GetInstance().GetCurrGold() + "";
+    }
+
+    internal void addGUI_byData(ItemUnit data)
+    {
+        SlotGUI_InvenSlot targetSlot = invenGUI_Manager.GetSlotGUI_byAddr(data.invenAddr);
+        GUI_ItemUnit ins_ItemGUI = invenData_SGT.spriteDataSet.GetGUI_byItemData(data.itemData, invenGUI_Manager._InsTrans);
+
+        targetSlot.SetGUI_byItemGUI(ins_ItemGUI);
+        targetSlot.SetItemData_byData(data);
     }
 }
 

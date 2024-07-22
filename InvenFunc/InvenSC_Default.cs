@@ -1,12 +1,11 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class InvenSC_Default : MonoBehaviour
 {
-    public SGT_GUI_ItemData invenData_SGT;
-    public GUI_InvenSetManager invenGUI_Manager;
-    public List<ItemUnit> ItemList_Data;
+    [SerializeField] internal SGT_GUI_ItemData invenData_SGT;
+    [SerializeField] internal GUI_InvenSetManager invenGUI_Manager;
+    [SerializeField] internal List<ItemUnit> ItemList_Data;
         
     void Start()
     {
@@ -15,14 +14,14 @@ public class InvenSC_Default : MonoBehaviour
         setGUI_bySGT();
     }
 
-    [ContextMenu("AddItem_JustRandom")]
     public void AddItem_Debug()
     {
         SlotGUI_InvenSlot targetSlot = invenGUI_Manager.GetSlotGUI_byMin();
 
         if (!targetSlot)
         {
-            Debug.Log("Inven is Full"); return;
+            //Inven is Full
+            return;
         }
 
         ItemUnit itemData = new ItemUnit();
@@ -40,7 +39,7 @@ public class InvenSC_Default : MonoBehaviour
         targetSlot.SetItemData_byData(data);
     }
 
-    public void setGUI_bySGT()
+    private void setGUI_bySGT()
     {
         if (ItemList_Data != null)
         {

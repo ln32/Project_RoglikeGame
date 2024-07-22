@@ -1,65 +1,65 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MapDataSGT : MonoBehaviour
 {
-    private static MapDataSGT mapSingleton;
- 
-    public MapHistoryData myHistory;
-    public CreateStageScenario _cs;
-    public GUI_MapScenario _mapGUI;
-    public MapScenario CurrMS;
+    private static MapDataSGT instance;
 
-    public Camera visualObj;
-    public bool isHaveToCreate = false; 
+    [SerializeField] internal MapHistoryData myHistory;
+    [SerializeField] internal CreateStageScenario _cs;
+    [SerializeField] internal GUI_MapScenario _mapGUI;
+    [SerializeField] internal MapScenario CurrMS;
+
+    [SerializeField] internal Camera visualObj;
+    [SerializeField] internal bool isHaveToCreate = false;
 
     public static MapDataSGT GlobalInit()
     {
-        return mapSingleton;
+        return instance;
     }
 
     public bool CheckInitOn(MapScenario _scenario)
     {
-        if (mapSingleton == null)
+        if (instance == null)
         {
+            // First initialization
             Application.targetFrameRate = 60;
-            mapSingleton = this;
+            instance = this;
             DontDestroyOnLoad(this);
 
             CurrMS = _scenario;
-            //_UpdateData(_scenario);
+            updateData(_scenario);
             return true;
         }
-        else if (mapSingleton == this)
+        else if (instance == this)
         {
+            // Already initialized as this instance
             Debug.Log("it is strange");
-            _UpdateData(_scenario);
+            updateData(_scenario);
             CurrMS = _scenario;
             return false;
         }
         else
         {
-            if (mapSingleton.isHaveToCreate)
+            // Another instance exists
+            if (instance.isHaveToCreate)
             {
-                myHistory = mapSingleton.myHistory;
+                // Replace existing instance with this one
+                myHistory = instance.myHistory;
 
-                Destroy(mapSingleton.gameObject);
-                {
-                    mapSingleton = this;
-                    DontDestroyOnLoad(this);
+                Destroy(instance.gameObject);
+                instance = this;
+                DontDestroyOnLoad(this);
 
-                    _UpdateData(_scenario);
-
-                    CurrMS = _scenario;
-                    return true;
-                }
+                updateData(_scenario);
+                CurrMS = _scenario;
+                return true;
             }
 
-            mapSingleton.gameObject.SetActive(true);
-            mapSingleton.CurrMS = _scenario;
-            _scenario._SGT.mapDATA = mapSingleton;
-            mapSingleton._UpdateData(_scenario);
+            // Maintain existing instance
+            instance.gameObject.SetActive(true);
+            instance.CurrMS = _scenario;
+            _scenario._SGT.mapDATA = instance;
+            instance.updateData(_scenario);
             Destroy(gameObject);
 
             return false;
@@ -71,11 +71,11 @@ public class MapDataSGT : MonoBehaviour
         myHistory.ClearLevel();
     }
 
-    public void _UpdateData(MapScenario _scenario)
+    private void updateData(MapScenario _scenario)
     {
-        _scenario._SGT.mapDATA = mapSingleton;
+        _scenario._SGT.mapDATA = instance;
         _scenario.History = myHistory;
-        _scenario._SC.cs = mapSingleton._cs;
-        _scenario._SC.mapGUI = mapSingleton._mapGUI;
+        _scenario._SC.cs = instance._cs;
+        _scenario._SC.mapGUI = instance._mapGUI;
     }
 }

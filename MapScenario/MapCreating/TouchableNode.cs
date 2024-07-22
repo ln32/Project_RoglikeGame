@@ -1,14 +1,12 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class TouchableNode : MonoBehaviour
 {
-    public BoxCollider2D coll;
+    [SerializeField] internal BoxCollider2D coll;
+    [SerializeField] internal int index;
     Action<int> onClick;
-    public int index;
 
 
     public void Setting(int _index, Action<int> _onClick)
@@ -19,12 +17,10 @@ public class TouchableNode : MonoBehaviour
         index = _index;
     }
 
-
     private void OnMouseUp()
     {
         onClick(index);
     }
-
 
     public void Destroy()
     {

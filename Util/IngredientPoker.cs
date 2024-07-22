@@ -232,6 +232,6 @@ internal class MyIngredient
 [Serializable]
 internal class Values_CombColor
 {
-    public Color[] color_CaseX;
-    public Color[] color_CaseY;
+    internal Color[] color_CaseX;
+    internal Color[] color_CaseY;
 }

@@ -1,43 +1,46 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static UnityEditor.Progress;
 
 public class _ValueSet_EventCoef : MonoBehaviour
 {
-    // currState
+    // CurrState
     internal Dictionary<int, int> currIncountState = new Dictionary<int, int>();
     [SerializeField] internal List<Vector2Int> currIncountState_ToShow = new List<Vector2Int>();
 
-    // data 원본
+    // Original data
     internal Dictionary<int, _EventCoef> EventDataSet = new Dictionary<int, _EventCoef>(); 
-    [SerializeField] internal List<_EventCoef> _EventDataSet_ToShow = new List<_EventCoef>();
 
     // _CoefSet_DEBUG Ctrl
-    [SerializeField] internal List<Vector2> _AgingCoefV2_ToSet = new List<Vector2>();
-    [SerializeField] internal List<Vector2Int> _Gap_onFocused_ToSet = new List<Vector2Int>();
-    [SerializeField] internal List<Vector2Int> _Gap_onIgnore_ToSet = new List<Vector2Int>();
+    [SerializeField] internal List<Vector2> AgingCoefV2_ToSet = new List<Vector2>();
+    [SerializeField] internal List<Vector2Int> Gap_onFocused_ToSet = new List<Vector2Int>();
+    [SerializeField] internal List<Vector2Int> Gap_onIgnore_ToSet = new List<Vector2Int>();
 
-    private void Awake()
+    internal void Awake()
     {
         SetDict_Refresh();
     }
 
-    [ContextMenu("0. DEBUG_SetCoefs")]
-    public void DEBUG_SetCoefs()
+    public int getCoef_Gap_onFocused(int _eventIndex)
     {
-        _EventDataSet_ToShow.Clear();
-        _AgingCoefV2_ToSet.Clear();
-        _Gap_onFocused_ToSet.Clear();
-        _Gap_onIgnore_ToSet.Clear();
+        _EventCoef _value;
+        EventDataSet.TryGetValue(_eventIndex, out _value);
+
+        return _value._Gap_onFocused;
+    }
+
+
+    protected void SetCoefs_byInputData()
+    {
+        AgingCoefV2_ToSet.Clear();
+        Gap_onFocused_ToSet.Clear();
+        Gap_onIgnore_ToSet.Clear();
 
         for (int x = 0; x < 4; x++)
         {
             for (int y = 0; y < 4; y++)
             {
-                _AgingCoefV2_ToSet.Add(new Vector2(x * 100 + y, x * y + 0.5f));
+                AgingCoefV2_ToSet.Add(new Vector2(x * 100 + y, x * y + 0.5f));
             }
         }
 
@@ -45,7 +48,7 @@ public class _ValueSet_EventCoef : MonoBehaviour
         {
             for (int y = 0; y < 4; y++)
             {
-                _Gap_onFocused_ToSet.Add(new Vector2Int(x * 100 + y, 1));
+                Gap_onFocused_ToSet.Add(new Vector2Int(x * 100 + y, 1));
             }
         }
 
@@ -53,92 +56,59 @@ public class _ValueSet_EventCoef : MonoBehaviour
         {
             for (int y = 0; y < 4; y++)
             {
-                _Gap_onIgnore_ToSet.Add(new Vector2Int(x * 100 + y, 1));
-            }
-        }
-
-        for (int x = 0; x < 4; x++)
-        {
-            for (int y = 0; y < 4; y++)
-            {
-                _EventDataSet_ToShow.Add(new(x * 100 + y));
+                Gap_onIgnore_ToSet.Add(new Vector2Int(x * 100 + y, 1));
             }
         }
 
         SetDict();
     }
 
-    [ContextMenu("0 - 2. SetDict")]
-    public void SetDict_Refresh()
+    protected void SetDict_Refresh()
     {
         SetDict();
-        DEBUG_SetCoef_Aging();
-        DEBUG_SetCoef_Gap_onFocused_ToSet();
-        DEBUG_SetCoef_Gap_onIgnore_ToSet();
+        SetCoef_byAging();
+        SetCoef_Gap_onFocused_ToSet();
+        SetCoef_Gap_onIgnore_ToSet();
     }
-    public void SetDict()
+
+    protected void SetDict()
     {
         if (currIncountState != null)
             currIncountState.Clear();
         currIncountState = new();
-
-        for (int i = 0; i < _EventDataSet_ToShow.Count; i++)
-        {
-            int EventIndex = _EventDataSet_ToShow[i].EventIndex;
-            EventDataSet.Add(EventIndex, _EventDataSet_ToShow[i]);
-        }
     }
 
-    [ContextMenu("1-1. DEBUG_SetCoef_Aging")]
-    internal void DEBUG_SetCoef_Aging()
+    internal void SetCoef_byAging()
     {
-        for (int i = 0; i < _AgingCoefV2_ToSet.Count; i++)
+        for (int i = 0; i < AgingCoefV2_ToSet.Count; i++)
         {
-            int _eventIndex = (int)_AgingCoefV2_ToSet[i].x;
+            int _eventIndex = (int)AgingCoefV2_ToSet[i].x;
 
             _EventCoef _value;
             EventDataSet.TryGetValue(_eventIndex, out _value);
-            _value._Aging = _AgingCoefV2_ToSet[i].y;
+            _value._Aging = AgingCoefV2_ToSet[i].y;
 
         }
     }
 
-    [ContextMenu("1-2. DEBUG_SetCoef_Gap_onFocused_ToSet")]
-    internal void DEBUG_SetCoef_Gap_onFocused_ToSet()
+    internal void SetCoef_Gap_onFocused_ToSet()
     {
-        for (int i = 0; i < _AgingCoefV2_ToSet.Count; i++)
+        for (int i = 0; i < AgingCoefV2_ToSet.Count; i++)
         {
-            int _eventIndex = (int)_Gap_onFocused_ToSet[i].x;
+            int _eventIndex = (int)Gap_onFocused_ToSet[i].x;
 
             _EventCoef _value;
             EventDataSet.TryGetValue(_eventIndex, out _value);
-            _value._Gap_onFocused = _Gap_onFocused_ToSet[i].y;
+            _value._Gap_onFocused = Gap_onFocused_ToSet[i].y;
         }
     }
 
-    [ContextMenu("1-3. DEBUG_SetCoef_Gap_onIgnore_ToSet")]
-    internal void DEBUG_SetCoef_Gap_onIgnore_ToSet()
+    internal void ApplyCurrState(List<int> target, Vector2Int childRangeV2, Vector2Int focusingPosV2)
     {
-        for (int i = 0; i < _AgingCoefV2_ToSet.Count; i++)
-        {
-            int _eventIndex = (int)_Gap_onIgnore_ToSet[i].x;
-
-            _EventCoef _value;
-            EventDataSet.TryGetValue(_eventIndex, out _value);
-            _value._Gap_onIgnore = _Gap_onIgnore_ToSet[i].y;
-        }
-    }
-
-
-
-    // outer func
-    internal void ApplyCurrState(List<int> target,Vector2Int childRangeV2,Vector2Int focusingPosV2)
-    {
-
         // 전체적 이벤트 데이터 결정
         List<int> eventData;
         if (true)
-        {   
+        {
             eventData = SetDetailEventList(target, childRangeV2, focusingPosV2);
         }
 
@@ -149,11 +119,24 @@ public class _ValueSet_EventCoef : MonoBehaviour
             {
                 target[index] = eventData[index];
             }
-
         }
 
     }
-    internal List<int> SetDetailEventList(List<int> _eventData, Vector2Int _childRange,Vector2Int focusingPosV2)
+
+    protected void SetCoef_Gap_onIgnore_ToSet()
+    {
+        for (int i = 0; i < AgingCoefV2_ToSet.Count; i++)
+        {
+            int _eventIndex = (int)Gap_onIgnore_ToSet[i].x;
+
+            _EventCoef _value;
+            EventDataSet.TryGetValue(_eventIndex, out _value);
+            _value._Gap_onIgnore = Gap_onIgnore_ToSet[i].y;
+        }
+    }
+
+
+    protected List<int> SetDetailEventList(List<int> _eventData, Vector2Int _childRange,Vector2Int focusingPosV2)
     {
         int count = _childRange.y - _childRange.x + 1;
         List<int> rtnList = new List<int>();
@@ -361,7 +344,7 @@ public class _ValueSet_EventCoef : MonoBehaviour
         return rtnList;
     }
 
-    internal float getCoef_Aging(int _eventIndex)
+    protected float getCoef_Aging(int _eventIndex)
     {
         _EventCoef _value;
         if(EventDataSet.TryGetValue(_eventIndex, out _value) == false)
@@ -374,21 +357,12 @@ public class _ValueSet_EventCoef : MonoBehaviour
     }
 
 
-    internal int getCoef_Gap_onFocused(int _eventIndex)
-    {
-        _EventCoef _value;
-        EventDataSet.TryGetValue(_eventIndex, out _value);
-
-        return _value._Gap_onFocused;
-    }
-
-    internal int getCoef_Gap_onIgnore(int _eventIndex)
+    protected int getCoef_Gap_onIgnore(int _eventIndex)
     {
         _EventCoef _value;
         EventDataSet.TryGetValue(_eventIndex, out _value);
         return _value._Gap_onIgnore;
     }
-
 }
 
 [Serializable]

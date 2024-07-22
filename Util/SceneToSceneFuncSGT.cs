@@ -1,22 +1,20 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.ExceptionServices;
 using UnityEngine;
 using static GUI_MapScenario;
 
 public class SceneToSceneFuncSGT : MonoBehaviour
 {
-    
-    public static SceneToSceneFuncSGT Instance = null;
-    public Material _ArriveMaterial_Map, _ExitMaterial_Map;
-    public Camera _myCamera;
+    private static SceneToSceneFuncSGT Instance = null;
+    [SerializeField] internal GameObject EventSysyemObj;
 
-    public GameObject EventSysyemObj;
-    public GameObject _ClosedSceneObj_Map, _ArriveObj_Map, _ExitObj_Map;
-    public GameObject myChild_toActive;
+    [SerializeField] protected GameObject _ClosedSceneObj_Map, _ArriveObj_Map, _ExitObj_Map;
+    [SerializeField] protected GameObject myChild_toActive;
 
-    public float reachTime = 0;
-    public float timer = 0;
+    [SerializeField] protected Material _ArriveMaterial_Map, _ExitMaterial_Map;
+    [SerializeField] protected Camera _myCamera;
+
+    [SerializeField] protected float reachTime = 0;
+    [SerializeField] protected float timer = 0;
 
     ProgressMap_preInput returnFunc;
 
@@ -39,11 +37,10 @@ public class SceneToSceneFuncSGT : MonoBehaviour
         }
     }
 
-    static public SceneToSceneFuncSGT InitSingleton()
+    static public SceneToSceneFuncSGT GetInstance()
     {
         return Instance;
     }
-
     static public void ArriveScene_Map(ProgressMap_preInput _returnFunc = null)
     {
 

@@ -9,13 +9,10 @@ public class MyButtonEffectBinder : MonoBehaviour
 
     void Start()
     {
-        // Button 컴포넌트 가져오기
         button = GetComponent<Button>();
 
-        // 클릭 이벤트 핸들러 등록
         button.onClick.AddListener(OnButtonClick);
 
-        // EventTrigger 컴포넌트 가져오기 또는 추가하기
         EventTrigger eventTrigger = gameObject.GetComponent<EventTrigger>();
         if (eventTrigger == null)
         {

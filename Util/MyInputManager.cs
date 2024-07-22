@@ -1,12 +1,11 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MyInputManager : MonoBehaviour
 {
-    public List<InputUnit> myInputList= new List<InputUnit>();
-    public bool isDuringEvent = false;
+    [SerializeField] internal List<InputUnit> myInputList= new List<InputUnit>();
+    [SerializeField] protected bool isDuringEvent = false;
 
     private void Update()
     {
@@ -34,7 +33,7 @@ public class MyInputManager : MonoBehaviour
 
     public void SetInputObjActivate(bool input)
     {
-        SceneToSceneFuncSGT.Instance.EventSysyemObj.SetActive(input);
+        SceneToSceneFuncSGT.GetInstance().EventSysyemObj.SetActive(input);
     }
 
     public void setDuringState(bool input)
@@ -44,7 +43,7 @@ public class MyInputManager : MonoBehaviour
 }
 
 [Serializable]
-public class InputUnit
+internal class InputUnit
 {
     GUI_MapScenario.ProgressMap_preInput func;
     KeyCode inputType;

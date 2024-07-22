@@ -6,13 +6,13 @@ public class CreateStageScenario : MonoBehaviour
 {
     internal Action<int> onClick;
 
-    public CreateMapVisual createBackGroundSector;
-    public CreateFloatingNode createFloatingNode;
-    public Transform focusingNode;
-    public Vector2Int focusingGridPos;
+    [SerializeField] internal CreateMapVisual createBackGroundSector;
+    [SerializeField] internal CreateFloatingNode createFloatingNode;
+    [SerializeField] internal Transform focusingNode;
+    [SerializeField] internal Vector2Int focusingGridPos;
 
-    public List<TouchableNode> currSelectable;     
-    public Camera MapCamera;
+    [SerializeField] internal List<TouchableNode> currSelectable;
+    [SerializeField] internal Camera MapCamera;
 
     public void SetOnClickFunc(Action<int> _onClick)
     {

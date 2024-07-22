@@ -1,9 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
 using static CreateMapTools;
 
 
@@ -12,9 +9,9 @@ public class CreateMapVisual : MonoBehaviour
     [SerializeField] private CreateMapBackgroundValues createMapBackgroundValues;
     [SerializeField] private CreateMapEventValues createMapEventValues;
     [SerializeField] private CreateRoadValues createRoadValues;
-    public List<NodeScriptPerLevel> eventObjectList = new();
-    public Vector2Int focusingNode;
-    public _ValueSet_EventCoef _value;
+    [SerializeField] internal List<NodeScriptPerLevel> eventObjectList = new();
+    [SerializeField] internal Vector2Int focusingNode;
+    [SerializeField] internal _ValueSet_EventCoef _value;
 
 
     public void InitSettingEventPos_Root(EventNodeDataToPlace treeData)
@@ -174,6 +171,7 @@ public class CreateMapVisual : MonoBehaviour
             }
         }
 
+        if (true)
         {
             foreach (var item in createdLevel.nodeList)
             {
@@ -614,7 +612,7 @@ public class CreateMapVisual : MonoBehaviour
 [Serializable]
 public struct CreateMapBackgroundValues
 {
-    [SerializeField] internal MapSettingDataSet BgObjDataSet;
+    [SerializeField] internal RefData_howNodeSet BgObjDataSet;
     public Transform parentTransform;
     
     public int countX;

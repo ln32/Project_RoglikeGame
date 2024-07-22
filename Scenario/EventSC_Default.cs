@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using static GUI_MapScenario;
@@ -68,21 +66,21 @@ public class EventSC_Default : MonoBehaviour
 [Serializable]
 internal struct EventSC_CombValues_SGT
 {
-    public SceneToSceneFuncSGT STS;
+    internal SceneToSceneFuncSGT STS;
 }
 
 [Serializable]
 internal struct EventSC_CombValues_UTIL
 {
-    public MyInputManager InputM;
-    public _AsycLoadScene ALS;
-    public EventSC_Char_UTIL myCharGUI;
+    internal MyInputManager InputM;
+    internal Util_AsycLoadScene ALS;
+    internal EventSC_Char_UTIL myCharGUI;
 }
 
 [Serializable]
 internal class EventSC_Char_UTIL
 {
-    public bool isCharGUI = false;
-    public myGUIAnimator CharGUI_Intro;
-    public myGUIAnimator CharGUI_Outtro;
+    internal bool isCharGUI = false;
+    internal GUI_Animator CharGUI_Intro;
+    internal GUI_Animator CharGUI_Outtro;
 }

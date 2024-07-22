@@ -19,11 +19,6 @@ static public class SyncDataFunc_Map
     {
         GameManager.gameManager.invenData = _data;
     }
-
-    static public void SetMapData_CharSkills(this MapScenario _MapScenario, int Char_Index, string[] Skill_NameSet)
-    {
-        // TODO : func space when need to additional Skill
-    }
     static public void SetMapData_CharEquips(this MapScenario _MapScenario, int Char_Index, string[] Skill_NameSet)
     {
         // TODO : func space when need to additional Skill
@@ -42,8 +37,8 @@ static public class SyncDataFunc_Map
         {
             case 0: return "Shop";
             case 1: return gameManager.GetCurrStageName();
-            case 2: return "Shop";
-            case 3: return "Shop";
+            case 2: return "Shop"; //TODO: Add scene name to transition to the corresponding battle scene
+            case 3: return "Shop"; //TODO: Add scene name to transition to the corresponding event scene
             default:
                 break;
         }
