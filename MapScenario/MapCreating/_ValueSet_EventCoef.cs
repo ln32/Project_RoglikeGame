@@ -206,7 +206,6 @@ public class _ValueSet_EventCoef : MonoBehaviour
                 List<int> rtn = new();
 
                 List<Vector2Int> _list = new();
-                int sum = 0;
 
                 // TODO
                 for (int i = 0; i < _count; i++)

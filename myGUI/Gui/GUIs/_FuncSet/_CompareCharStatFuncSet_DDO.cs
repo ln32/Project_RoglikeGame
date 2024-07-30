@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public static class _CompareCharStatFuncSet_DDO
 {
     static public bool CompareItem_withStat(this SlotGUI_EquipSlot targetEquip, ItemUnit target)

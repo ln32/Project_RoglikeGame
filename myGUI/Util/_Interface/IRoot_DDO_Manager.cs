@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public interface iRoot_DDO_Manager
 {
     public SGT_GUI_ItemData GetInvenSGT();

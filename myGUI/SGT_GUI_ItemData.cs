@@ -67,11 +67,11 @@ public class ItemUnit
 {
     private static int _index = 0;
 
-    public int index = -1;
-    public string itemName;
-    public List<int> itemData = new();
-    public List<int> invenAddr = new();
-    public int GoldValue;
+    [SerializeField] internal int index = -1;
+    [SerializeField] internal string itemName;
+    [SerializeField] internal List<int> itemData = new();
+    [SerializeField] internal List<int> invenAddr = new();
+    internal int GoldValue;
 
     public static void SetIndex_byItemList(int target)
     {
@@ -81,26 +81,26 @@ public class ItemUnit
     internal void InitData_Random_Slot(SlotGUI_InvenSlot slot)
     {
         InitializeItemUnit(slot.myAddr);
-        itemName = $"Rand_{index}";
+        itemName = "Rand_" + index;
     }
 
     internal void InitData_Random_Goods()
     {
         InitializeItemUnit();
-        itemName = $"RandGoods_{index}";
+        itemName = "RandGoods_" + index;
     }
 
     internal void InitData_Random_Cooks(int input = -1)
     {
         InitializeItemUnit();
-        itemName = $"RandGoods_{index}";
+        itemName = "RandGoods_" + index;
         InitializeCookData(input);
     }
 
     public void SetIndex_byPurchase()
     {
         InitializeIndex();
-        itemName = $"Purchase - {index}";
+        itemName = "Purchase_ " + index;
     }
 
     private void InitializeItemUnit(List<int> address = null)

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static CreateMapTools;
+using CreateMapTools;
 
 
 public class CreateMapVisual : MonoBehaviour
@@ -430,8 +430,8 @@ public class CreateMapVisual : MonoBehaviour
             {
                 eventObjectList.SetTerrain(focusingNode, new Vector2Int(focusingNode.x+1, i));
                 List<SpriteRenderer> instantBG = createMapBackgroundValues.setBackgroundSprites(
-                    events[i].transform.position, 
-                    terrainDataToIndex(currLayer.nodeTerrainData[i]),
+                    events[i].transform.position,
+                    CreateMapTools.CreateMapTools.terrainDataToIndex(currLayer.nodeTerrainData[i]),
                     level
                 ); // << color
 
@@ -505,8 +505,8 @@ public class CreateMapVisual : MonoBehaviour
         for (int i = (int)range_Curr.x; i < range_Curr.y + 1; i++)
         {
             List<SpriteRenderer> instantBG = createMapBackgroundValues.setBackgroundSprites_BOSS(
-                events[i].transform.position, 
-                terrainDataToIndex(nextLayer.nodeTerrainData[i]),
+                events[i].transform.position,
+                CreateMapTools.CreateMapTools.terrainDataToIndex(nextLayer.nodeTerrainData[i]),
                 2
                 );
             List<SpriteRenderer> trashBin = new();

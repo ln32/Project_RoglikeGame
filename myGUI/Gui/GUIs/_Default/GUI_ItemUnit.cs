@@ -73,8 +73,8 @@ public class GUI_ItemUnit : MonoBehaviour
 [Serializable]
 internal class Values_GUI
 {
-    public TextMeshProUGUI nameText;
-    public Image img_Main;
-    public Material color_Focused, color_Default,color_Cash;
-    public Image img_Equip, img_DiceMain, img_DiceSub;
+    internal TextMeshProUGUI nameText;
+    internal Image img_Main;
+    internal Material color_Focused, color_Default,color_Cash;
+    internal Image img_Equip, img_DiceMain, img_DiceSub;
 }
