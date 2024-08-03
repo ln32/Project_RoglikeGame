@@ -107,7 +107,7 @@ public class CreateMapVisual : MonoBehaviour
     }
 
     // data 
-    public void InitSettingEventPos(EventNodeDataToPlace treeData, int index, ref GUI_MapScenario.ProgressMap_preInput task)
+    public void InitSettingEventPos(EventNodeDataToPlace treeData, int index, ref Action task)
     {
         //Event - Setting Node by Data
         focusingNode = treeData.focusGridPos;
@@ -281,7 +281,7 @@ public class CreateMapVisual : MonoBehaviour
         return;
     }
 
-    public void InitSettingEventPos_BOSS(EventNodeDataToPlace treeData, int index, ref GUI_MapScenario.ProgressMap_preInput task)
+    public void InitSettingEventPos_BOSS(EventNodeDataToPlace treeData, int index, ref Action task)
     {
         focusingNode = treeData.focusGridPos;
         int std = (int)(eventObjectList.getChildRangeByGridPos(new Vector2Int(treeData.focusGridPos.x, index)).x);
@@ -351,7 +351,7 @@ public class CreateMapVisual : MonoBehaviour
         nextLevel.connectingData.setConnectedData(treeData.nodeTreeData);
 
 
-        GUI_MapScenario.ProgressMap_preInput tempTask = new(() => {;});
+        Action tempTask = new(() => {;});
 
         // 카메라 이동 후 해야 할 작업 1. 활성화, 2. 길 연결, 3. 길 그림
         tempTask += () =>

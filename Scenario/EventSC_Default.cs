@@ -17,7 +17,7 @@ public class EventSC_Default : MonoBehaviour
 
         if (true)
         {
-            ProgressMap_preInput task = new(() => {
+            Action task = new(() => {
                 if (_UTIL.myCharGUI.isCharGUI == false)
                 {
                     _UTIL.myCharGUI.isCharGUI = true;
@@ -48,7 +48,7 @@ public class EventSC_Default : MonoBehaviour
             return;
         }
 
-        ProgressMap_preInput task = new(() => {; });
+        Action task = new(() => {; });
         task += SceneChange;
 
         SceneToSceneFuncSGT.ExitScene_Map(task);

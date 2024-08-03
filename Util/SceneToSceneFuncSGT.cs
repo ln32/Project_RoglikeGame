@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using static GUI_MapScenario;
@@ -16,7 +17,7 @@ public class SceneToSceneFuncSGT : MonoBehaviour
     [SerializeField] protected float reachTime = 0;
     [SerializeField] protected float timer = 0;
 
-    ProgressMap_preInput returnFunc;
+    Action returnFunc;
 
     static public void InitSingleton(ref SceneToSceneFuncSGT target)
     {
@@ -41,9 +42,8 @@ public class SceneToSceneFuncSGT : MonoBehaviour
     {
         return Instance;
     }
-    static public void ArriveScene_Map(ProgressMap_preInput _returnFunc = null)
+    static public void ArriveScene_Map(Action _returnFunc = null)
     {
-
         if (Instance == null)
         {
             return;
@@ -55,7 +55,7 @@ public class SceneToSceneFuncSGT : MonoBehaviour
         Instance._ArriveScene_Map(_returnFunc);
     }
 
-    static public void ExitScene_Map(ProgressMap_preInput _returnFunc = null)
+    static public void ExitScene_Map(Action _returnFunc = null)
     {
         if (Instance.gameObject.activeSelf == false)
             Instance.gameObject.SetActive(true);
@@ -63,7 +63,7 @@ public class SceneToSceneFuncSGT : MonoBehaviour
         Instance._ExitScene_Map(_returnFunc);
     }
 
-    void _ArriveScene_Map(ProgressMap_preInput _returnFunc = null)
+    void _ArriveScene_Map(Action _returnFunc = null)
     {
         if (_returnFunc == null)
         {
@@ -92,7 +92,7 @@ public class SceneToSceneFuncSGT : MonoBehaviour
                 yield return new WaitForSeconds(0.02f);
             }
 
-            _ArriveMaterial_Map.SetFloat("_Seed", Random.Range(0.0f, 1.0f));
+            _ArriveMaterial_Map.SetFloat("_Seed", UnityEngine.Random.Range(0.0f, 1.0f));
             _ArriveMaterial_Map.SetFloat("_RevertCoex", 0);
             _ArriveObj_Map.SetActive(true);
             _ClosedSceneObj_Map.SetActive(false);
@@ -118,7 +118,7 @@ public class SceneToSceneFuncSGT : MonoBehaviour
         }
     }
 
-    void _ExitScene_Map(ProgressMap_preInput _returnFunc = null)
+    void _ExitScene_Map(Action _returnFunc = null)
     {
         EventSysyemObj.SetActive(false);
 
@@ -140,7 +140,7 @@ public class SceneToSceneFuncSGT : MonoBehaviour
         {
             timer = 0;
 
-            _ExitMaterial_Map.SetFloat("_Seed", Random.Range(0.0f, 1.0f));
+            _ExitMaterial_Map.SetFloat("_Seed", UnityEngine.Random.Range(0.0f, 1.0f));
             _ExitMaterial_Map.SetFloat("_RevertCoex", 0);
             _ExitObj_Map.SetActive(true);
 

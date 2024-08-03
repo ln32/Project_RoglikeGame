@@ -1,10 +1,9 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 public class GUI_MapScenario : MonoBehaviour
 {
-    public delegate void ProgressMap_preInput();
-
     [SerializeField] internal GUI_MapNodeInfo myGUI_Info;
     [SerializeField] internal GUI_SelectedNode _selectGUI;
     [SerializeField] internal Camera CameraComp;
@@ -25,7 +24,7 @@ public class GUI_MapScenario : MonoBehaviour
         timer = 0;
     }
 
-    public void MoveCamera(Vector3 dstV3, ProgressMap_preInput progFunc)
+    public void MoveCamera(Vector3 dstV3, Action progFunc)
     {
         if (dstV3 == Vector3.zero)
         {
@@ -45,10 +44,10 @@ public class GUI_MapScenario : MonoBehaviour
         cameraMoveCoroutine = StartCoroutine(MoveCameraCoroutine(dstV3, progFunc));
     }
 
-    private IEnumerator MoveCameraCoroutine(Vector3 dstV3, ProgressMap_preInput func)
+    private IEnumerator MoveCameraCoroutine(Vector3 dstV3, Action func)
     {
         _ExitMaterial.SetFloat("_RevertCoex", 0);
-        _ExitMaterial.SetFloat("_Seed", Random.Range(0.0f, 1.0f));
+        _ExitMaterial.SetFloat("_Seed", UnityEngine.Random.Range(0.0f, 1.0f));
 
         Vector3 src = CameraTrans.position;
 

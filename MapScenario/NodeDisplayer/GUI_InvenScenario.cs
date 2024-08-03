@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,7 +27,7 @@ public class GUI_InvenScenario : MonoBehaviour
         timer = 0;
     }
 
-    public void EffectScenechange_BlurMapFunc(ProgressMap_preInput progFunc)
+    public void EffectScenechange_BlurMapFunc(Action progFunc)
     {
         if (enumerator != null)
             StopCoroutine(enumerator);
@@ -34,7 +35,7 @@ public class GUI_InvenScenario : MonoBehaviour
         StartCoroutine(EffectScenechange_BlurMap(progFunc));
     }
 
-    IEnumerator EffectScenechange_BlurMap(ProgressMap_preInput func)
+    IEnumerator EffectScenechange_BlurMap(Action func)
     {
         timer = 0;
         while (true)
@@ -73,7 +74,7 @@ public class GUI_InvenScenario : MonoBehaviour
             yield return null;
         }
 
-        _ArriveMaterial.SetFloat("_Seed", Random.Range(0.0f, 1.0f));
+        _ArriveMaterial.SetFloat("_Seed", UnityEngine.Random.Range(0.0f, 1.0f));
         _ArriveMaterial.SetFloat("_RevertCoex", 0);
         _ArriveMapScearioEffect.SetActive(true);
         ClosedScene.SetActive(false);

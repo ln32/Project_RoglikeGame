@@ -56,7 +56,7 @@ public class CreateStageScenario : MonoBehaviour
         this.setVisualObject();
     }
 
-    public Vector3 ProgressMap(int inputChildIndex, ref GUI_MapScenario.ProgressMap_preInput task)
+    public Vector3 ProgressMap(int inputChildIndex, ref Action task)
     {
         if (!createFloatingNode.IsInit())
             return Vector3.one*-1;

@@ -110,7 +110,7 @@ internal static class CreateStageScenarioTools
     }
 
     // 시간차 생성
-    internal static void buildLeaf(this CreateStageScenario _cs, ref GUI_MapScenario.ProgressMap_preInput task, int input = -1)
+    internal static void buildLeaf(this CreateStageScenario _cs, ref Action task, int input = -1)
     {
         EventNodeDataToPlace treeData = _cs.createFloatingNode.buildTree(input);
         if (_cs.createFloatingNode.createNodeValues.maxLevel - _cs.focusingGridPos.x == 2)

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MyInputManager : MonoBehaviour
 {
-    [SerializeField] internal List<InputUnit> myInputList= new List<InputUnit>();
+    List<InputUnit> myInputList= new List<InputUnit>();
     [SerializeField] protected bool isDuringEvent = false;
 
     private void Update()
@@ -18,7 +18,7 @@ public class MyInputManager : MonoBehaviour
         }  
     }
 
-    public void AddInputEventList(GUI_MapScenario.ProgressMap_preInput _func, KeyCode _inputType)
+    public void AddInputEventList(Action _func, KeyCode _inputType)
     {
         for (int i = 0; i < myInputList.Count; i++)
         {
@@ -43,18 +43,18 @@ public class MyInputManager : MonoBehaviour
 }
 
 [Serializable]
-internal class InputUnit
+class InputUnit
 {
-    GUI_MapScenario.ProgressMap_preInput func;
+    Action func;
     KeyCode inputType;
 
-    public InputUnit(GUI_MapScenario.ProgressMap_preInput _func, KeyCode _inputType)
+    public InputUnit(Action _func, KeyCode _inputType)
     {
         func = _func;
         inputType = _inputType;
     }
 
-    public bool CheckToSearch(GUI_MapScenario.ProgressMap_preInput _func, KeyCode _inputType)
+    public bool CheckToSearch(Action _func, KeyCode _inputType)
     {
         if (inputType == _inputType)
         {

@@ -30,7 +30,7 @@ public class MapScenario : MonoBehaviour
 
     private void SetupInventoryInput()
     {
-        ProgressMap_preInput task = new(() =>
+        Action task = new(() =>
         {
             if (_SGT.mapDATA.gameObject.activeSelf)
             {
@@ -107,7 +107,7 @@ public class MapScenario : MonoBehaviour
             (History.GetHistory().Split('/').Length)
         );
 
-        ProgressMap_preInput task = new(() => { });
+        Action task = new(() => { });
         Vector3 desV3 = _SC.cs.ProgressMap(index, ref task);
 
         if (desV3 == Vector3.zero)
@@ -146,7 +146,7 @@ public class MapScenario : MonoBehaviour
             return;
         }
 
-        ProgressMap_preInput task = new(() =>
+        Action task = new(() =>
         {
             _UTIL.ALS.TimeToSwitchScene();
             _SGT.mapDATA.gameObject.SetActive(false);
@@ -174,8 +174,8 @@ public class MapScenario : MonoBehaviour
         }
 
         _UTIL.CaptureBG.CaptureByMainCam(_SGT.mapDATA._mapGUI.CameraComp);
-        ProgressMap_preInput task = new(() => { });
-        ProgressMap_preInput rtnTask = new(() => { });
+        Action task = new(() => { });
+        Action rtnTask = new(() => { });
 
         _SC.invenSC.setGUI_bySGT();
 

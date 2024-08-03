@@ -1,7 +1,7 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using static GUI_MapScenario;
 
 public class InvenCtrl_MapSC : MonoBehaviour
 {
@@ -9,14 +9,14 @@ public class InvenCtrl_MapSC : MonoBehaviour
     protected RawImage myBlur1, myBlur2;
     protected GameObject CamObj;
 
-    protected ProgressMap_preInput returnFunc;
+    protected Action returnFunc;
 
     protected float reachTime = 0.2f;
     protected float myAlpha = 0.5f;
     protected float coefP = 3;
     protected float timer = 0;
 
-    protected IEnumerator EffectScenechange_BlurMapToInven(ProgressMap_preInput func)
+    protected IEnumerator EffectScenechange_BlurMapToInven(Action func)
     {
         timer = 0;
         setColorByCoef(myBlur1, 0);
@@ -46,7 +46,7 @@ public class InvenCtrl_MapSC : MonoBehaviour
         yield return null;
     }
 
-    protected IEnumerator EffectScenechange_BlurInvenToMap(ProgressMap_preInput progFunc)
+    protected IEnumerator EffectScenechange_BlurInvenToMap(Action progFunc)
     {
         timer = 0;
         float target = 0;
@@ -91,7 +91,7 @@ public class MapScenario_InvenCtrl : InvenCtrl_MapSC
     {
         MyInputM.SetInputObjActivate(false);
         returnFunc += () => MyInputM.SetInputObjActivate(true);
-        ProgressMap_preInput progFunc = () => {; };
+        Action progFunc = () => {; };
 
         if (timer != 0)
             return;
@@ -99,7 +99,7 @@ public class MapScenario_InvenCtrl : InvenCtrl_MapSC
         StartCoroutine(EffectScenechange_BlurInvenToMap(progFunc));
     }
 
-    public void BlurStart(ProgressMap_preInput func, ProgressMap_preInput rtnFunc)
+    public void BlurStart(Action func, Action rtnFunc)
     {
         MyInputM.SetInputObjActivate(false);
         func += () => MyInputM.SetInputObjActivate(true);
