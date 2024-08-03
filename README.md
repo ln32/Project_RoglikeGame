@@ -3,7 +3,7 @@
 ## Posted Link
  https://jaehoon602.itch.io/map-inven-camp-shop-720p
  
--> itch.io link (last updated - 24.07.05.)
+-> itch.io link (last updated - 24.07.12. )
 
 
 - - -
@@ -44,6 +44,7 @@ https://github.com/user-attachments/assets/031dce7e-34bb-4a15-87e2-b5727d9a85f9
 - Detailed Nodes
 - Scene Change
 - Progressed Map
+  (각 기능 개요는 wiki에 정리 중입니다.)
 
 
 ## 구조
@@ -61,6 +62,7 @@ https://github.com/user-attachments/assets/031dce7e-34bb-4a15-87e2-b5727d9a85f9
 - - -
 
 # [2] Inventory 개요
+
 
 ## 기능 
 
