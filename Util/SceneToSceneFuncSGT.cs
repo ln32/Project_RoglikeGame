@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using static GUI_MapScenario;
 
 public class SceneToSceneFuncSGT : MonoBehaviour
 {

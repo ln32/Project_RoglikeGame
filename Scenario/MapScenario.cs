@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using static GUI_MapScenario;
 
 public class MapScenario : MonoBehaviour
 {

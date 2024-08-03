@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using UnityEngine.Events;
-using static GUI_MapScenario;
 
 public class EventSC_Default : MonoBehaviour
 {
