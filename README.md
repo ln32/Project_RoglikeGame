@@ -46,7 +46,7 @@ https://github.com/user-attachments/assets/031dce7e-34bb-4a15-87e2-b5727d9a85f9
 - Progressed Map
   (각 기능 개요는 wiki에 정리 중입니다.)
 
-[ (wiki) Map_Scenario 개요 ](https://github.com/ln32/Project_RoglikeGame/wiki/Map_Scenario)
+[ (Wiki) Map_Scenario 개요 ](https://github.com/ln32/Project_RoglikeGame/wiki/MapScenario)
 
 ## 구조
 
@@ -69,7 +69,7 @@ https://github.com/user-attachments/assets/031dce7e-34bb-4a15-87e2-b5727d9a85f9
 
 https://github.com/user-attachments/assets/5a286082-ec94-49da-bebe-253ffea4bce0
 
-[ (wiki) InvenGUI 개요 ](https://github.com/ln32/Project_RoglikeGame/wiki/InvenGUI)
+[ (Wiki) InvenGUI 개요 ](https://github.com/ln32/Project_RoglikeGame/wiki/InvenGUI)
 
 ## 구조
 
@@ -97,7 +97,7 @@ https://github.com/user-attachments/assets/b127cdf9-86df-47b6-bf92-47c155727ee5
 
 ![image](https://github.com/ln32/Project_RoglikeGame/assets/94381505/30880225-9f6b-40c4-8e04-35837dadbbcf)
 
-[ (wiki) Camp_Scenario 개요 ](https://github.com/ln32/Project_RoglikeGame/wiki/Camp_Scenario)
+[ (Wiki) CampScenario 개요 ](https://github.com/ln32/Project_RoglikeGame/wiki/CampScenario)
 
 ## 핵심 구현
 1. Camp 진입 시 Item Data를 읽은 후, 알맞은 Slot에 배치합니다.
@@ -112,7 +112,7 @@ https://github.com/user-attachments/assets/b127cdf9-86df-47b6-bf92-47c155727ee5
 
 https://github.com/user-attachments/assets/d38c0b2c-4665-4737-94a6-07ce4a798eaf
 
-[ (wiki) Shop_Scenario 개요 ](https://github.com/ln32/Project_RoglikeGame/wiki/Shop_Scenario)
+[ (Wiki) ShopScenario 개요 ](https://github.com/ln32/Project_RoglikeGame/wiki/ShopScenario)
 
 ## 구조
 ![image](https://github.com/ln32/Project_RoglikeGame/assets/94381505/e8d9766c-99d1-414b-b960-ced06ef2a6c4)
